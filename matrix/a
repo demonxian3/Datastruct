@@ -1,0 +1,133 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define OK 1
+#define ERROR 0
+#define MAX 1024
+
+typedef int Status;
+typedef int ElemType;
+typedef struct{
+  int i,j;
+  ElemType v;
+}Triple;
+
+typedef struct{
+  Triple data[MAX+1]; //begining from 1
+  int mu,nu,tu;
+}TSMatrix;
+
+Status createMatrix(TSMatrix *M,int *A,int m,int n){
+  int col,row,k=0;
+ 
+  for(row=0;row<m;row++){
+    for(col=0;col<n;col++){
+      if(*((int *)A + n*row + col)!=0){
+        k++;         //begining from 1
+        M->data[k].i = row;
+        M->data[k].j = col;
+        M->data[k].v = *((int *)A + n*row + col);
+      }
+    }
+  }
+
+  M->mu = m;
+  M->nu = n;
+  M->tu = k;
+  return OK;
+}
+
+//Why should i keep row priorities?
+//Because the transpose matrix is row proriorities,
+//So, if you print the matrix ,it will make some error;
+
+Status Simple_Transpose(TSMatrix M,TSMatrix *T){
+  int col,p,q=1;
+  
+  if(M.tu){
+    for(col=0;col<M.nu;col++){
+      for(p=1;p<=M.tu;p++){
+        if(M.data[p].j==col){
+          T->data[q].i = M.data[p].j;
+          T->data[q].j = M.data[p].i;
+          T->data[q].v = M.data[p].v;
+          q++;
+        }
+      }
+    }
+  }
+
+  T->mu = M.mu;
+  T->nu = M.nu;
+  T->tu = M.tu;
+  return OK;
+}
+
+
+
+Status Fast_Transpose(TSMatrix M,TSMatrix *T){
+  int col,k,q;
+  int num[M.nu+1];
+  int cpot[M.nu+1];
+
+  if(M.tu){
+    for(col=0;col<=M.nu;col++)  //clear num[]
+      num[col]=0;
+
+    for(k=1;k<=M.tu;k++)        //storage number for per columns
+      num[M.data[k].j+1]++;     //because j is begining from 0
+
+    cpot[1] = 1;
+    for(col=2;col<=M.nu;col++)  //storage first postion
+      cpot[col] = cpot[col-1] + num[col-1];
+
+    for(k=1;k<=M.tu;k++){       //scan Matrix M[][]
+      col = M.data[k].j+1;      //get element's column
+      q = cpot[col];            //get element's transpose positon
+      T->data[q].i = M.data[k].j;
+      T->data[q].j = M.data[k].i;
+      T->data[q].v = M.data[k].v;
+      ++cpot[col];              //move back one bit for element's position
+    }
+  }
+
+  T->mu = M.mu;
+  T->nu = M.nu;
+  T->tu = M.tu;
+  return OK;
+}
+
+
+Status Print(TSMatrix M){
+  int i,j,k=1;
+  for(i=0;i<M.mu;i++){
+    for(j=0;j<M.nu;j++){
+      if(M.data[k].i == i && M.data[k].j == j){
+        printf("  [%d]\t",M.data[k].v);
+        k++;
+      }else{
+        printf("  [0]\t");
+      }
+    }
+    printf("\n");
+  }
+  return OK;
+}
+
+int main(){
+  int arr[5][5] = {
+    {0,0,2,3,0},
+    {1,2,0,0,4},
+    {0,0,0,0,0},
+    {0,2,0,4,0},
+    {1,0,0,0,3}
+  };
+
+  TSMatrix M,T;
+  createMatrix(&M,(int *)arr,5,5);
+  //Simple_Transpose(M,&T);
+  Fast_Transpose(M,&T);
+  Print(M);
+  printf("\n");
+  Print(T);
+  return 0;
+}
