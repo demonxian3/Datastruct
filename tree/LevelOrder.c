@@ -1,64 +1,55 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "queue.h"
 
-typedef BitTree ElemType;
 
-typedef struct Qnode{
-  ElemType data;
-  struct Qnode *next;
-}Qnode,*Qlink;
-
-typedef struct{
-  Qlink front;
-  Qlink rear;
-} Queue;
-
-typedef struct BitNode{
-  int e;
-  struct BitNode *lchild,*rchild;
-}BitNode,*BitTree;
-
-void initQueue(Queue *Q){
-  Q->front = Q->rear = (Qlink)malloc(sizeof(Qnode));
-  Q->front->next = NULL;
+void create(BitTree T,int e,BitTree l,BitTree r){
+  T->data = e;
+  T->lchild = l;
+  T->rchild = r;
   return;
 }
 
-void enQueue(Queue *Q,ElemType e){
-  Qlink new = (Qlink)malloc(sizeof(Qnode));
-  new->data = e;
-  new->next = NULL;
-
-  Q->rear->next = new;
-  Q->rear = new;
+void visit(int e){
+  printf("%d ",e);
   return;
 }
 
-void deQueue(Queue *Q,ElemType *e){
-  if(Q->front == Q->rear){printf("overflow\n");return;}
-   
-  Qlink tmp = Q->front->next;
-  Q->front->next = tmp->next;
-  *e = tmp->data;
-  if(tmp == Q->rear)Q->rear = Q->front;
-  free(tmp);
+void LevelOrder(BitTree T){
+  if(T==NULL)return;
+  Queue Q;
+  BitTree p;
+
+  initQueue(&Q);
+  enQueue(&Q,T);
+ 
+  while(!emptyQueue(Q)){
+    deQueue(&Q,&p);
+    visit(p->data);
+    if(p->lchild)enQueue(&Q,p->lchild);
+    if(p->rchild)enQueue(&Q,p->rchild);
+  }
   return;
 }
-
-void getHead(Queue Q,ElemType *e){
-  if(Q.front->next == NULL) *e=-2;
-  *e = Q.front->next->data;
-  return;
-}
-
 
 
 int main(){
- Queue Q;
- initQueue(&Q);
- 
- //create Tree
- 
-  
- return;
+    //create Tree;
+    BitTree root = (BitTree)malloc(sizeof(BitNode));
+    BitTree leaf1 = (BitTree)malloc(sizeof(BitNode));
+    BitTree leaf2 = (BitTree)malloc(sizeof(BitNode));
+    BitTree leaf3 = (BitTree)malloc(sizeof(BitNode));
+    BitTree node1 = (BitTree)malloc(sizeof(BitNode));
+    BitTree node2 = (BitTree)malloc(sizeof(BitNode));
+    
+    create(leaf1,32,NULL,NULL);
+    create(leaf2,44,NULL,NULL);
+    create(leaf3,39,NULL,NULL);
+    create(node1,51,leaf1,leaf2);
+    create(node2,72,leaf3,NULL);
+    create(root,12,node1,node2);
+    
+    LevelOrder(root);
+    printf("\n");
+    return;
 }
