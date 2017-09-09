@@ -73,6 +73,34 @@ typedef struct CBnode{
 } CBnode,*CBTree;
 
 
+/************************************/
+/****    Binary Tree Notation    ****/
+/************************************/
+
+/********************/
+/*sequential storage*/
+/********************/
+typedef struct{
+  ElemType arr[MAXSIZE];  //storage all nodes to array;
+  int r,n;                //n is total number of nodes, r is root's index;
+}BTree;                   //use this struct to storage complete binary tree is suitable;
+
+/********************/
+/*  linked storage  */
+/********************/
+//binary linked          
+typedef struct BitNode{
+  ElemType data;
+    struct BitNode *lchild,*rchild;
+}BitNode,*BitTree;
+
+//trigeminal linked
+typedef struct TBnode{
+  ElemType data;
+  struct TBnode *lchild,*rchild,*parent;
+}TBnode,*TBTree;
+
+
 int main(){
   return 0;
 }
