@@ -66,7 +66,15 @@ Status PreOrderThreading(BitThrTree *Thrt,BitThrTree T){
 
   *Thrt = Tree;
 }
-
+/*
+ *Thinking:
+ *1.connect precursor || connect subsequence when lchild or rchild is NULL
+ *2.let prepointer equal the p-pointer
+ *3.recursive lchild
+ *4.recursive rchild
+ *There's bug which will make loop after threading the lchild and recursive it in step3;
+ *There's bug which will make loop after threading the rchild in step4 when the numbers of node is even
+ */ 
 void PreThreading(BitThrTree p){
    if(p){
      //Threading first
@@ -79,30 +87,40 @@ void PreThreading(BitThrTree p){
        pre->rchild = p;
      }
 
-     //pointer forwarding
+     //let prepointer track the p-pointer
      pre = p;
   
      //recursive left/right son
      if(p->ltag==0)             //prevent loop
        PreThreading(p->lchild);
-     else
-       pre = p;
-
-     PreThreading(p->rchild);
+     if(p->rtag==0)             //prevent loop
+       PreThreading(p->rchild);
    }     
 }
 
-//void preOrder(BitThrTree p){
-//  if(p){
-//    printf("%d ",p->data);
-//    preOrder(p->lchild);
-//    preOrder(p->rchild);
-//  }
-//}
+void visit(ElemType e){
+  printf("%d ",e);
+}
+
+Status PreOrderTraverse_Thr(BitThrTree T){
+  BitThrTree p = T->lchild;
+  while(p!=T){
+    while(p->ltag==0){
+      visit(p->data);
+      p=p->lchild;
+    }
+    while(p->rtag && p!=T){
+      visit(p->data);
+      p=p->rchild;
+    }
+  }
+}
 
 int main(){
   BitThrTree Thrt;
   BitThrTree T = createTree();
   PreOrderThreading(&Thrt,T);
+  PreOrderTraverse_Thr(Thrt);
+  printf("\n");
   return 0;
 }

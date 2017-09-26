@@ -38,8 +38,8 @@ BitThrTree createTree(){
     if((int)2*i+1<=num){
       arr[i]->rtag = 0;
       arr[i]->rchild = arr[(int)2*i+1];
-      i++;
     }
+    i++;
   }
 
   return arr[1];
@@ -55,7 +55,7 @@ Status InOrderThreading(BitThrTree *Thrt,BitThrTree T){
   (*Thrt)->rtag = 1;                //thread
 
   (*Thrt)->rchild = (*Thrt);        //rpointer Anaphora
-  if(!T)(*Thrt)->lchild = (*Thrt);  //rpointer Anaphora
+  if(!T)(*Thrt)->lchild = (*Thrt);  //lpointer Anaphora
 
   else{                             //if tree is not NULL
     pre = *Thrt;
@@ -111,6 +111,7 @@ int main(){
   BitThrTree Thrt;
   InOrderThreading(&Thrt,T);
   InOrderTraverse_Thr(Thrt);
+  printf("\n");
   return OK;
 }
 
