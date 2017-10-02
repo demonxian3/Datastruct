@@ -94,20 +94,20 @@ HuffmanTree AlphabetHuffman(){
 
 HuffmanCode HuffmanCoding(HuffmanTree HT){
   int c,f,i,start;
-  HuffmanCode HC;
+  HuffmanCode HC = (char**)malloc((NUM+1)*sizeof(char*));
   char *path = (char*)malloc((NUM+1)*sizeof(char));
   path[NUM]='\0';
 
   for(i=1;i<=NUM;i++){
     start = NUM-1;
     for(c=i,f=HT[c].parent;f!=0;c=f,f=HT[c].parent){
-      if(c=HT[f].lchild)
+      if(c==HT[f].lchild)
         path[start--]='0';
       else
         path[start--]='1';
     }
     HC[i]=(char*)malloc((NUM-start)*sizeof(char));
-    strcpy(HC[i],&path[start]);
+    strcpy(HC[i],&path[start+1]);
   }
   free(path);
   return HC;
