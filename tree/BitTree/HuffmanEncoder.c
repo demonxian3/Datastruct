@@ -115,6 +115,6 @@ HuffmanCode HuffmanCoding(HuffmanTree HT){
 
 int main(){
   HuffmanTree ht = AlphabetHuffman();
-  HuffmanCode hc = HuffmanCodding(ht);
+  HuffmanCode hc = HuffmanCoding(ht);
   return 0;
 }
