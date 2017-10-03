@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #define OK 1
 #define NUM 26
@@ -114,7 +115,22 @@ HuffmanCode HuffmanCoding(HuffmanTree HT){
 }
 
 int main(){
+  int num;
+  char val;
   HuffmanTree ht = AlphabetHuffman();
   HuffmanCode hc = HuffmanCoding(ht);
+  
+  //printf("%s",*(hc+1));
+  while(1){
+    fflush(stdin);
+    printf("enter a character:\n");
+    scanf("%c",&val);
+    num = val-0;
+    if(num>96){
+      num-=96;
+      printf("encode result:%s\n",*(hc+num));
+    }
+    sleep(0.5);
+  }
   return 0;
 }
