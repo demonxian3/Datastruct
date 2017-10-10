@@ -1,4 +1,6 @@
 /*  Adjacency matrix  */
+//there is a problem in line 99, 100, 104
+//but rewrite the code and it revocery
 #include <stdio.h>
 #include <stdlib.h>
 #define INFINITY 1000
@@ -87,19 +89,22 @@ MGraph createDG(){
   
   int i;
   for(i=0;i<G.vexnum;i++){
-    printf("G.vexs[%d]",i);
+    printf("G.vexs[%d]:",i);
     scanf("%c",&G.vexs[i]);
     getchar();
   }
 
+  printf("vex: %d\n",G.vexnum);
+  printf("acr: %d\n",G.acrnum);
+
   int j;
-  for(i=0;i>G.vexnum;i++)
+  for(i=0;i<G.vexnum;i++)
     for(j=0;j<G.vexnum;j++)
       G.acrs[i][j]=0;
 
   int a,b;
   for(i=0;i<G.acrnum;i++){
-    printf("[%d] i,j: ");
+    printf("[%d]--> i,j: ",i);
     scanf("%d,%d",&a,&b);
     getchar();
     G.acrs[a][b]=1;
