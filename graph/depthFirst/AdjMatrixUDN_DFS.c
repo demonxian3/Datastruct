@@ -5,8 +5,7 @@
 #define INFINITY 1000
 #define MAXNUM 20
 
-
-
+//AdjMatrix
 typedef char VertexType;
 typedef int VRType;
 typedef struct{
@@ -17,8 +16,9 @@ typedef struct{
 
 //global array:
 int visited[MAXNUM];
+void DFS(MGraph G,int v);
 
-void DFSTraverse(MGraph G,int v){
+void DFSTraverse(MGraph G){
   //init array:
   int i;
   for(i=0;i<G.vexnum;i++)
@@ -26,16 +26,16 @@ void DFSTraverse(MGraph G,int v){
 
   //reverse array:
   for(i=0;i<G.vexnum;i++)
-   if(!visited[i])
-     DFS(G,v);
+    if(!visited[i])
+      DFS(G,i);
 }
-
 
 void DFS(MGraph G,int v){
   visited[v] = True;
   int w;
-  for(w=firstAdjVex(G,v);w>0;w=nextAdjVex(G,v))
-     
+  for(w=0;w<G.vexnum;w++)
+    if( G.acrs[v][w]!=INFINITY && !visited[w] )
+      DFS(G,w);
 }
 
 MGraph createUDN(){
@@ -75,6 +75,12 @@ MGraph createUDN(){
 
 int main(){
   MGraph G = createUDN();
-  
+  DFSTraverse(G);
+  int i,sum=0;
+  for(i=0;i<G.vexnum;i++)
+    if(visited[i])
+      sum++;
+
+  printf("the number of the true:%d\n",sum);
   return 0;
 }
