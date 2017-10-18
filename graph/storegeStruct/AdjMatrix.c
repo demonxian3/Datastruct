@@ -1,5 +1,5 @@
 /*  Adjacency matrix  */
-//there is a problem in line 99, 100, 104
+//there is a problem in line 101, 102, 106
 //but rewrite the code and it revocery
 #include <stdio.h>
 #include <stdlib.h>
@@ -130,10 +130,10 @@ void printDG(MGraph G){
 }
 
 int main(){
-  //MGraph G = createUDN();
-  //printUDN(G);
+  MGraph G = createUDN();
+  printUDN(G);
   
-  MGraph G = createDG();
-  printDG(G);
+  //MGraph G = createDG();
+  //printDG(G);
   return 0;
 }
