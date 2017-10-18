@@ -65,10 +65,13 @@ void DFSTraverse(VNGraph G){
 }
 
 void DFS(VNGraph G,int v){
-  EdgeNode * w; 
-  for(w=G.vexs[v].firstedge;w!=NULL;w=w->nextacr)
-    if(!visited[w->adjvex]);
+  visited[v] = True;
+  EdgeNode * w = G.vexs[v].firstedge;
+  while(w!=NULL){
+    if(!visited[w->adjvex])
       DFS(G,w->adjvex);
+    w=w->nextacr; 
+  }
 }
 
 int main(){
@@ -76,7 +79,8 @@ int main(){
   DFSTraverse(G);
   int i,j=0;
   for(i=0;i<G.vexnum;i++)
-    if(visited[i])j++;
+    if(visited[i])
+      j++;
 
   printf("total=%d\n",j);
   return 0;
