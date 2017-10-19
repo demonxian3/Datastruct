@@ -3,8 +3,11 @@
 #define MAXNUM 100
 #define True 1
 #define False 0
+#define OK 1
+#define ERROR 0
+#define OVERFLOW -2
 
-typedef int VertexType;
+typedef char VertexType;
 typedef struct AcrBox{
   int headvex,tailvex;
   struct AcrBox *headlink,*taillink;
@@ -20,6 +23,53 @@ typedef struct{
   int acrnum,vexnum;
 }OLGraph;
 
+/*========================================*/
+/*		    Queue                 */
+/*========================================*/
+typedef int Status;
+typedef int ElemType;
+typedef struct Qnode{
+  ElemType data;
+  struct Qnode *next;
+}Qnode,*Qlink;
+
+typedef struct{
+  Qlink front,rear;
+}Queue;
+
+Status initQueue(Queue *Q){
+  Q->front = Q->rear = (Qlink)malloc(sizeof(Qnode));
+  Q->front->next = NULL;
+  return OK;
+}
+
+Status isEmpty(Queue Q){
+  if(Q.rear == Q.front)return True;
+  else return False;
+}
+
+Status enQueue(Queue *Q,ElemType e){
+  Qlink new = (Qlink)malloc(sizeof(Qnode));
+  new->data = e;
+  new->next = NULL;
+  Q->rear->next = new;
+  Q->rear = new;
+  return OK;
+}
+
+Status deQueue(Queue *Q,ElemType *e){
+  if(isEmpty(*Q))return ERROR;
+  Qlink tmp = Q->front->next;
+  Q->front->next = tmp->next;
+  *e = tmp->data;
+  if(Q->rear = tmp)Q->rear = Q->front;
+  free(tmp);
+  return OK;
+}
+
+/*========================================*/
+/*		    Create                */
+/*========================================*/
 OLGraph createDG(){
   OLGraph G;
   printf("G.vexnum: ");
@@ -31,7 +81,7 @@ OLGraph createDG(){
   int i;
   for(i=0;i<G.vexnum;i++){
     printf("G.xlist[%d].data:",i);
-    scanf("%d",&G.xlist[i].data);
+    scanf("%c",&G.xlist[i].data);
     getchar();
   }
 
@@ -51,34 +101,46 @@ OLGraph createDG(){
   return G;
 }
 
-//Depth First Traverse 
+/*========================================*/
+/*		    BFST                  */
+/*========================================*/
 int visited[MAXNUM];
 
-void DFS(OLGraph G,int v);
-
-void DFSTraverse(OLGraph G){
-  int i;
+void BFSTraverse(OLGraph G){
+  //init visited
+  int i,w,v;
   for(i=0;i<G.vexnum;i++)
     visited[i] = False;
   
-  for(i=0;i<G.vexnum;i++)
-    if(!visited[i])
-      DFS(G,i);
-}
+  //init Queue
+  Queue Q; 
+  initQueue(&Q);
 
-void DFS(OLGraph G,int v){ 
-  visited[v] = True;
-  AcrBox *w = G.xlist[v].firstout;
-  while(w!=NULL){
-    if(!visited[w->headvex])
-      DFS(G,w->headvex);
-    w=w->headlink;
-  }
+  for(i=0;i<G.vexnum;i++){
+    if(!visited[i]){
+      visited[i]=True;
+      printf("[%c] ",G.xlist[i].data);
+      enQueue(&Q,i);
+      while(!isEmpty(Q)){
+        deQueue(&Q,&w);
+        AcrBox *neighbor = G.xlist[w].firstout;
+        while(neighbor != NULL){
+          v = neighbor->headvex;
+          if(!visited[v]){
+            visited[v]=True;
+            printf("[%c] ",G.xlist[v].data);
+            enQueue(&Q,v);
+          } 
+          neighbor = neighbor->taillink;
+        }
+      }//while  
+    }//if 
+  }//for
 }
 
 int main(){
   OLGraph G = createDG();
-  DFSTraverse(G);
+  BFSTraverse(G);
   int i,j=0;
   for(i=0;i<G.vexnum;i++)
     if(visited[i])

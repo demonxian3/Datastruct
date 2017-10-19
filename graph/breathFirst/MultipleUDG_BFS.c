@@ -87,31 +87,33 @@ void BFSTraverse(AMLGraph G){
 
   //breath first traverse
   for(i=0;i<G.vexnum;i++){
-    visited[i]=True;
-    printf("[%c] ",G.adjmulist[i].data);
-    enQueue(&Q,i);
-    while(!isEmpty(Q)){
-      int w;
-      deQueue(&Q,&w);
-      EBox *neighbor = G.adjmulist[i].firstEdge;
-      while(neighbor != NULL){
-        if(neighbor->ivex == w){
-          if(!visited[neighbor->jvex]){
-            visited[neighbor->jvex]=True;
-            printf("[%c] ",G.adjmulist[neighbor->jvex].data);
-            enQueue(&Q,neighbor->jvex);
+    if(!visited[i]){
+      visited[i]=True;
+      printf("[%c] ",G.adjmulist[i].data);
+      enQueue(&Q,i);
+      while(!isEmpty(Q)){
+        int w;
+        deQueue(&Q,&w);
+        EBox *neighbor = G.adjmulist[i].firstEdge;
+        while(neighbor != NULL){
+          if(neighbor->ivex == w){
+            if(!visited[neighbor->jvex]){
+              visited[neighbor->jvex]=True;
+              printf("[%c] ",G.adjmulist[neighbor->jvex].data);
+              enQueue(&Q,neighbor->jvex);
+            }
+            neighbor = neighbor->ilink;
+          }else{
+            if(!visited[neighbor->ivex]){
+              visited[neighbor->ivex]=True;
+              printf("[%c] ",G.adjmulist[neighbor->ivex].data);
+              enQueue(&Q,neighbor->ivex);
+            }
+            neighbor = neighbor->jlink;
           }
-          neighbor = neighbor->ilink;
-        }else{
-          if(!visited[neighbor->ivex]){
-            visited[neighbor->ivex]=True;
-            printf("[%c] ",G.adjmulist[neighbor->ivex].data);
-            enQueue(&Q,neighbor->ivex);
-          }
-          neighbor = neighbor->jlink;
         }
-      }
-    }//while
+      }//while
+    }//if
   }//for
 }
 
