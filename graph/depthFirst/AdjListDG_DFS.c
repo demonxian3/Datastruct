@@ -66,6 +66,7 @@ void DFSTraverse(VNGraph G){
 
 void DFS(VNGraph G,int v){
   visited[v] = True;
+  printf("[%c] ",G.vexs[v].data);
   EdgeNode * w = G.vexs[v].firstedge;
   while(w!=NULL){
     if(!visited[w->adjvex])

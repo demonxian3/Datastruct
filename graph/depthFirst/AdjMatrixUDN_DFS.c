@@ -31,6 +31,7 @@ void DFSTraverse(MGraph G){
 }
 
 void DFS(MGraph G,int v){
+  printf("[%c] ",G.vexs[v]);
   visited[v] = True;
   int w;
   for(w=0;w<G.vexnum;w++)
