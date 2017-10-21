@@ -3,6 +3,11 @@
 #define MAXNUM 100
 #define True 1
 #define False 0
+#define OK 1
+#define ERROR 0
+#define OVERFLOW -2
+
+
 
 typedef int VertexType;
 typedef struct EBox{
@@ -21,6 +26,100 @@ typedef struct{
   int vexnum,acrnum;
 }AMLGraph;
 
+/*========================================*/
+/*		    Queue                 */
+/*========================================*/
+typedef int Status;
+typedef int ElemType;
+typedef struct Qnode{
+  ElemType data;
+  struct Qnode *next;
+}Qnode,*Qlink;
+
+typedef struct{
+  Qlink front;
+  Qlink rear;
+}Queue;
+
+Status initQueue(Queue *Q){
+  Q->front = Q->rear = (Qlink)malloc(sizeof(Qnode));
+  Q->front->next = NULL;
+  return OK;
+}
+
+Status isEmpty(Queue Q){
+  if(Q.front == Q.rear)return True;
+  else return False;
+}
+
+Status enQueue(Queue *Q,ElemType e){
+  Qlink new = (Qlink)malloc(sizeof(Qnode));
+  new->data = e;
+  new->next = NULL;
+  Q->rear->next = new;
+  Q->rear = new;
+  return OK;
+}
+
+Status deQueue(Queue *Q,ElemType *e){
+  if(isEmpty(*Q))return ERROR;
+  Qlink tmp = Q->front->next;
+  Q->front->next = tmp->next;
+  *e = tmp->data;
+  if(Q->rear == tmp)Q->rear = Q->front;
+  free(tmp);
+  return OK;
+}
+/*========================================*/
+/*		    BFST                  */
+/*========================================*/
+int visited[MAXNUM];
+
+void BFSTraverse(AMLGraph G){
+  //init visited
+  int i;
+  for(i=0;i<G.vexnum;i++)
+    visited[i]=False;
+  
+  //init Queue
+  Queue Q;
+  initQueue(&Q);
+
+  //breath first traverse
+  for(i=0;i<G.vexnum;i++){
+    if(!visited[i]){
+      visited[i]=True;
+      printf("[%c] ",G.adjmulist[i].data);
+      enQueue(&Q,i);
+      while(!isEmpty(Q)){
+        int w;
+        deQueue(&Q,&w);
+        EBox *neighbor = G.adjmulist[i].firstEdge;
+        while(neighbor != NULL){
+          if(neighbor->ivex == w){
+            if(!visited[neighbor->jvex]){
+              visited[neighbor->jvex]=True;
+              printf("[%c] ",G.adjmulist[neighbor->jvex].data);
+              enQueue(&Q,neighbor->jvex);
+            }
+            neighbor = neighbor->ilink;
+          }else{
+            if(!visited[neighbor->ivex]){
+              visited[neighbor->ivex]=True;
+              printf("[%c] ",G.adjmulist[neighbor->ivex].data);
+              enQueue(&Q,neighbor->ivex);
+            }
+            neighbor = neighbor->jlink;
+          }
+        }
+      }//while
+    }//if
+  }//for
+}
+
+/*========================================*/
+/*		    Create                */
+/*========================================*/
 AMLGraph createUDG(){
   AMLGraph G;
   printf("G.vexnum: ");
@@ -52,38 +151,10 @@ AMLGraph createUDG(){
   }
   return G;
 }
-int visited[MAXNUM];
-
-void DFS(AMLGraph G,int v){
-  visited[v] = True;
-  EBox *w = G.adjmulist[v].firstEdge;
-  while(w!=NULL){
-    if(w->ivex == v){
-      if(!visited[w->jvex])
-        DFS(G,w->jvex);
-      w=w->ilink;
-    }
-    else{
-      if(!visited[w->ivex])
-        DFS(G,w->ivex);
-      w=w->jlink;
-    }
-  }
-}
-
-void DFSTraverse(AMLGraph G){
-  int i;
-  for(i=0;i<G.vexnum;i++)
-    visited[i]=False;
-  
-  for(i=0;i<G.vexnum;i++)
-    if(!visited[i])
-      DFS(G,i);
-}
 
 int main(){
   AMLGraph G = createUDG();
-  DFSTraverse(G);
+  BFSTraverse(G);
   int i,j=0;
   for(i=0;i<G.vexnum;i++)
     j++;

@@ -69,7 +69,6 @@ Status deQueue(Queue *Q,ElemType *e){
 int visited[MAXNUM];
 
 void BFSTraverse(MGraph G){
-  
   //initalizated the visited array
   int i;
   for(i=0;i<G.vexnum;i++)
@@ -83,12 +82,14 @@ void BFSTraverse(MGraph G){
   int w,j;
   for(i=0;i<G.vexnum;i++){
     if(!visited[i]){
+      printf("[%c] ",G.vexs[i]);
       visited[i] = True;
       enQueue(&Q,i);
       while(!isEmpty(Q)){
         deQueue(&Q,&w);
         for(j=0;j<G.vexnum;j++){
            if(G.acrs[w][j]==1 && !visited[j]){
+             printf("[%c] ",G.vexs[j]);
              visited[j]=True;
              enQueue(&Q,j);
            }
@@ -132,7 +133,6 @@ MGraph createUDN(){
     G.acrs[a][b]=c;
     G.acrs[b][a]=c;
   }
-
   printf("\n\n");
   return G;
 }
