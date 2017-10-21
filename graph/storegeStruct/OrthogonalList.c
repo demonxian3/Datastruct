@@ -1,10 +1,11 @@
 /******    Orthogonal List     ******/
+//This programe cannot run in kali linux with gcc6.1.x
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #define MAXNUM 100
 
-typedef int VertexType;
+typedef char VertexType;
 typedef struct AcrBox{
   int tailvex,headvex;
   struct AcrBox *headlink,*taillink;

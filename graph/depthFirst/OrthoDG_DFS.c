@@ -1,3 +1,5 @@
+//This programe cannot run in kali linux with gcc-6.1.x
+
 #include <stdio.h>
 #include <stdlib.h>
 #define MAXNUM 100
