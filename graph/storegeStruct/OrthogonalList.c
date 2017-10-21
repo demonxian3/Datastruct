@@ -1,5 +1,5 @@
 /******    Orthogonal List     ******/
-//This programe cannot run in kali linux with gcc6.1.x
+//This programe cannot run in kali linux with gcc-6.1.x
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
