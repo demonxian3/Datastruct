@@ -66,6 +66,7 @@ void MiniSpanTree_PRIM(OLGraph G,VertexType u){
         sel = j;
       }
     
+    closedge[sel].lowcost=0;
     printf(" %d  -- %d \n",closedge[sel].adjvex,sel);
     neighbor = G.xlist[sel].firstout;
     while(neighbor != NULL){
@@ -112,6 +113,7 @@ void createDN(OLGraph *G){
 int main(){
   OLGraph G;
   createDN(&G);
+  printf("input begin-edge:");
   char c = getchar();
   MiniSpanTree_PRIM(G,c);
   return;
