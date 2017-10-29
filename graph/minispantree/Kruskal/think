@@ -1,0 +1,89 @@
+图的存储方式(使用无向)
+struct {
+  VertexType vexs[MAXNUM];
+  VRType acrs[MAXNUM][MAXNUM];
+  int vexnum,acrnum;
+} Graph;
+
+
+边的存储方式
+struct {
+  int u,v;
+  VRType w;
+} Edge;
+
+
+矩阵初始化
+Graph G;
+for(i=0;i<G.vexnum;i++)
+  for(j=0;j<G.vexnum;j++)
+     G.acrs[i][j] = INFINITY;
+
+填入数据：
+createUDN();
+
+初始化源边 E并存入数据
+Edge E[G.acrnum];
+k=0;
+for(i=0;i<G.vexnum;i++)
+  for(j=0;j<G.vexnum;j++)
+    if(G.vexs[i][j] != INFINITY){
+      E[k].u = i;
+      E[k].v = j;
+      E[k].w = G.acrs[i][j];
+      k++;
+    }
+
+存储连通信息的矩阵
+int con[MAXNUM][MAXNUM]
+
+for(i=0;i<G.vexnum;i++)
+  for(j=0;j<G.vexnum;j++)
+    con[i][j] = False;
+  
+判断两点是否连通
+isConnect(int v,int u,int isDirect){
+  if( isDirect == 0 )  //无向
+    if(conn[u][v] == True || conn[v][u] == True)
+      return True;
+    else 
+      return False;
+  else                //有向
+    if(conn[u][v] == True)
+      return True;
+  
+}
+
+设置两点连通
+setConnect(int v,int u,int isDirect){
+  if( isDirect == 0 )
+    conn[u][v] = conn[v][u] = True;  
+  else
+    conn[u][v] = True
+}
+
+边排序
+edgeSort(Graph G,Edge *E){
+  Edge sE[G.acrnum];
+  int min = INFINITY;
+  
+  for(i=0;i<G.acrnum;i++){
+    for(j=0;j<G.acrnum;j++){
+      if(min<E[k].w){
+        min = E[k].w;
+        sel = k;
+      }
+    }
+    sE[i] = E[sel];
+    E[sel].w = INFINITY;
+  }
+
+  E = sE;
+  free(sE);
+}
+
+
+Kruskal思想：
+for(k=0;k<G.acrnum;k++){
+    
+}
