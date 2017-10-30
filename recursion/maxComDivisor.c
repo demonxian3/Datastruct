@@ -8,10 +8,8 @@ int Gcd(int a,int b){
 
 int main(){
   int a,b;
-  printf("enter a:");
-  scanf("%d",&a);
-  printf("enter b:");
-  scanf("%d",&b);
+  printf("Enter a,b: ");
+  scanf("%a,%d",&a,&b);
 
   printf("Maxmum commond divisor is %d\n",Gcd(a,b)); 
 }
