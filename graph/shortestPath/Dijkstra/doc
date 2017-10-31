@@ -1,0 +1,182 @@
+*********************  About P[] ************************
+
+== Look the picture which name is AdjMatrix_Dijkstra.png ==
+
+[code]
+v0 = 0
+for(v= 0,1,2,3,4,5){
+    Dist[v] = G.acrs[0][v]
+
+    for(w= 0,1,2,3,4,5)
+       P[v][w] = F
+
+    if(Dist[v] < INFINITY){
+       P[v][0] = T
+       P[v][v] = T
+    }
+}
+		      P[init]
+==================================================
+x	0	1	2	3	4	5
+
+
+0	F	F	F	F	F	F
+
+
+1	T	T	F	F	F	F
+
+
+2	T	F	T	F	F	F
+
+
+3	F	F	F	F	F	F
+
+
+4	T	F	F	F	T	F
+
+
+5	F	F	F	F	F	F
+==================================================
+[code]
+for(i= 0,1,2,3,4,5){
+   min = INFINITY;
+
+   //select min
+   for(w= 0,1,2,3,4,5)
+      if(!final[w] && Dist[w]<min){
+         v = w;
+         min = Dist[w];
+      }
+
+   //finsh selecting
+   final[v] = T;
+
+   //Update P
+   for(w= 0,1,2,3,4,5)
+      if(!final[w] && min+G.acrs[v][w] < Dist[w]){
+         Dist[w] = min + G.acrs[v][w];
+         for(j= 0,1,2,3,4,5)
+            P[w][j] = P[v][j];
+         P[w][w] = T;
+      }
+}
+
+[flow chart]
+Dist[] :	0	1	2	3	4	5
+		-	7	9	N	14	N
+select 1	-	-	9	22	14	N
+select 2	-	-	-	20	11	N
+select 4	-	-	-	20	-	20
+select 3	-	-	-	-	-	20
+select 5	-	-	-	-	-	-
+
+[data tracking]
+              P[select 1][update 3]
+==================================================
+x	0	1	2	3	4	5
+
+
+0	F	F	F	F	F	F
+
+
+1	T	T	F	F	F	F
+
+
+2	T	F	T	F	F	F
+
+
+3	T	T	T	F	F	F   *COPY Line1 && [3][3]=T
+
+
+4	T	F	F	F	T	F
+
+
+5	F	F	F	F	F	F
+==================================================
+
+
+              P[select 2][update 3,4]
+==================================================
+x	0	1	2	3	4	5
+
+
+0	F	F	F	F	F	F
+
+
+1	T	T	F	F	F	F
+
+
+2	T	F	T	F	F	F
+
+
+3	T	F	T	T	F	F  *COPY Line2  && [3][3]=T
+
+
+4	T	F	T	F	T	F  *COPY Line2  && [4][4]=T
+
+
+5	F	F	F	F	F	F
+==================================================.
+
+             
+              P[select 4][update 5]
+==================================================
+x	0	1	2	3	4	5
+
+
+0	F	F	F	F	F	F
+
+
+1	T	T	F	F	F	F
+
+
+2	T	F	T	F	F	F
+
+
+3	T	F	T	T	F	F  
+
+
+4	T	F	T	F	T	F  
+
+
+5	T	F	T	F	T	T   *COPY Line4 [5][5]=T
+==================================================
+
+              P[select 3][NO UPDATE]
+==================================================
+x	0	1	2	3	4	5
+
+
+0	F	F	F	F	F	F
+
+
+1	T	T	F	F	F	F
+
+
+2	T	F	T	F	F	F
+
+
+3	T	F	T	T	F	F  
+
+
+4	T	F	T	F	T	F  
+
+
+5	T	F	T	F	T	T   
+==================================================
+
+Complete!!!
+
+[result]
+
+P[]-> CONTENT:
+
+v0 = 0
+
+to 1: 0 - 1
+to 2: 0 - 2
+to 3: 0 - 2 - 3
+to 4: 0 - 2 - 4
+to 5: 0 - 2 - 4 - 5 
+
+

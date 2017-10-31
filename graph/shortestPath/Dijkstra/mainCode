@@ -1,0 +1,35 @@
+void ShortestPath_DIJ(MGraph G,int v0,PathMatrix &P,ShortPathTable &Dist){
+  //用Dijkstra算法求有向网G的v0顶点到其余顶点v的最短路径
+  for(v=0;v<G.vexnum;++v){             //初始化Dist和P
+     final[v] = FALSE;                 //final数组用于标记 v 是否属于集合S
+     Dist[v] = G.acrs[v0][v];
+     for(w=0;w<G.vexnum;++w)           //设置空路径
+        P[v][w] = FALSE;
+     if(Dist[v]<INFINITY){
+        P[v][v0] = TRUE;
+        P[v][v]  = TRUE;
+     }  
+  }
+
+  Dist[v0] = 0; final[v0] = TRUE;      //初始化v0 属于集合S
+  for(i=0;i<G.vexnum;i++){
+     //每次循环求得v0到某个v顶点的最短路径并加入v到S集合中
+     min = INFINITY;
+
+     for(w=0;w<G.vexnum;w++)           //在未解顶点中找最近的顶点
+        if(!final[w])                  //w顶点在V-S中
+           if(Dist[w] < min){          //w顶点离v0顶点更近
+              v = w;                   //v顶点为当前最小路径顶点
+              min = Dist[w];
+           }
+
+     final[v] = TRUE;                     //将v加入S集合中
+     for(w=0;w<G.vexnum;w++)              //更新当前最短路径及距离
+        if(!final[w] && min+G.acrs[v][w] < Dist[w] ){   //v顶点到V-S集合中的顶点w距离更小
+           Dist[w] = min + G.acrs[v][w];  //修改Dist[w] 和 P[w]
+           for(j=0;j<G.vexnum;j++)        //第v行赋值于第w行
+              P[w][j] = P[v][j];
+           P[w][w] = TRUE;
+        }
+  }
+}
