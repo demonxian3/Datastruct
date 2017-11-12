@@ -21,7 +21,7 @@ typedef struct EdgeNode{
 typedef struct VNode{
   VertexType data;
   EdgeNode *firstedge;
-}Vnode,AdjList[MAXNUM];
+}VNode,AdjList[MAXNUM];
 
 typedef struct {
   AdjList vexs;
@@ -72,6 +72,10 @@ void TopologicalSort(ALGraph G){
   int i,count=0;
   indegree ID[G.vexnum];
   EdgeNode *tmp =(EdgeNode*)malloc(sizeof(EdgeNode));
+
+  for(i=0;i<G.vexnum;i++)
+    ID[i].indeg = 0;
+
   for(i=0;i<G.vexnum;i++){
     tmp = G.vexs[i].firstedge;
     while(tmp){
@@ -81,9 +85,11 @@ void TopologicalSort(ALGraph G){
     ID[i].isShow = FALSE;
   }
  
-  for(i=0;i<G.vexnum;i++)
-    printf("[%d]:%d\n",i,ID[i].indeg);
+  /*debug*/
+  //for(i=0;i<G.vexnum;i++)
+  //printf("[%d]:%d\n",i,ID[i].indeg);
    
+  printf("Topo Logical Sort: ");
   while(count < G.vexnum){
     for(i=0;i<G.vexnum;i++){
       if(!ID[i].isShow && ID[i].indeg==0){
@@ -95,11 +101,12 @@ void TopologicalSort(ALGraph G){
         while(tmp){
           ID[tmp->adjvex].indeg--;
           tmp=tmp->nextacr;
-         }
+        }
       }
     }
     count++;
   }
+  printf("\n");
 }
 
 int main(){
