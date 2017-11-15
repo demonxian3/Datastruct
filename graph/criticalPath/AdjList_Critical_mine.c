@@ -3,8 +3,8 @@
  * Author:demon				    *
  * Date:2017-11-15                          *
  * Description:This algorithm have a huge   *
- * issue that the program is extreme depen- *
- * dent on the order of  input vertex       *
+ * issue that the program is extremely dep- *
+ * endent on the order of  input vertex     *
  * and the order of input edges and the re- *
  * lationship between..			    *
  * *****************************************/
@@ -76,6 +76,9 @@ void criticalPath(ALGraph G){
   int i;
   int Ve[G.vexnum];
   int Vl[G.vexnum];
+  int Ae[G.acrnum];
+  int Al[G.acrnum];
+  
   EdgeNode *tmp = (EdgeNode*)malloc(sizeof(EdgeNode));
 
   for(i=0;i<G.vexnum;i++)
@@ -107,15 +110,46 @@ void criticalPath(ALGraph G){
     }
   }
 
+  //求Ae
+  int j=0;
+  for(i=0;i<G.vexnum;i++){
+    tmp = G.vexs[i].firstedge;
+    while(tmp){
+      Ae[j++] = Ve[i];
+      tmp=tmp->nextacr;
+    }
+  }
+  
+  //求Al
+  j=G.acrnum-1;
+  for(i=(G.vexnum-2);i>-1;i--){
+    tmp = G.vexs[i].firstedge;
+    while(tmp){
+      Al[j--] = Vl[tmp->adjvex] - tmp->weight;
+      tmp=tmp->nextacr;
+    }
+  }
+
   for(i=0;i<G.vexnum;i++)
     printf("Ve[%d] = %d\n",i,Ve[i]);
-
   printf("\n");
+
   for(i=0;i<G.vexnum;i++)
     printf("Vl[%d] = %d\n",i,Vl[i]);
   printf("\n");
 
-  
+  for(i=0;i<G.acrnum;i++)
+    printf("Ae[%d] = %d\n",i,Ae[i]);
+  printf("\n");
+
+  for(i=0;i<G.acrnum;i++)
+    printf("Al[%d] = %d\n",i,Al[i]);
+  printf("\n");
+
+  //判断是否为关键路径
+  for(i=0;i<G.acrnum;i++)
+    if( Al[i] == Ae[i] )
+      printf("[%d] is critical\n",i);
 
 }
 
