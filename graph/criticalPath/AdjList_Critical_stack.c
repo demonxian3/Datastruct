@@ -38,6 +38,7 @@ ALGraph createDN(){
   for(i=0;i<G.vexnum;i++){
     printf("G.vexs[%d].data: ",i);
     scanf("%c",&G.vexs[i].data);
+    G.vexs[i].firstedge = NULL;     //注意：之前少了这句，代码运行时一直报segment fault,此句很重要
     getchar();
   }    
 
@@ -45,14 +46,12 @@ ALGraph createDN(){
   for(i=0;i<G.acrnum;i++){
     printf("[%d]i,j,w: ",i);
     scanf("%d,%d,%d",&a,&b,&w);
-    getchar();
     EdgeNode *new =(EdgeNode*)malloc(sizeof(EdgeNode));
     new->adjvex = b;
     new->info = w;
     new->nextacr = G.vexs[a].firstedge;
     G.vexs[a].firstedge = new;
   }
-
   return G;
 }
 
@@ -74,38 +73,40 @@ void printDN(ALGraph G){
  *    Critical Paht    *
  ***********************/
 int ve[MAXNUM];
-int *findIndegree(ALGraph G){
+void findIndegree(ALGraph G,int *indegree){
   int i;
-  int indegree[MAXNUM];
+  EdgeNode *p = (EdgeNode*)malloc(sizeof(EdgeNode));  
   for(i=0;i<G.vexnum;i++)
     indegree[i]=0;
 
   for(i=0;i<G.vexnum;i++){
-    EdgeNode *tmp = G.vexs[i].firstedge;
-    ++indegree[tmp->adjvex];
+    p = G.vexs[i].firstedge;
+    indegree[p->adjvex]++;
+    p = p->nextacr;
   }
-
-  return indegree;
+ 
 }
 
 Status TopoLogicalSort(ALGraph G,Sqstack *T){
   int i;
+  int *indegree = (int*)malloc(G.vexnum*sizeof(int));
   EdgeNode *tmp = (EdgeNode*)malloc(sizeof(EdgeNode));
   Sqstack S;
   initStack(&S);
-  int *indegree = findIndegree(G);
+  findIndegree(G,indegree);
   initStack(T);
 
   for(i=0;i<G.vexnum;i++)
-    printf("%c: %d\n",G.vexs[i].data,indegree[i]);
+    printf("%d\n",G.vexs[i].data);
 }
 
 Status CriticalPath(ALGraph G){
-  Sqstack(T);
+  Sqstack T;
   if(!TopoLogicalSort(G,&T))
     return ERROR;
   
 }
+
 
 int main(){ 
   ALGraph G = createDN();

@@ -40,6 +40,7 @@ ALGraph createDG(){
   for(i=0;i<G.vexnum;i++){
     printf("G.vexs[%d].data: ",i);
     scanf("%c",&G.vexs[i].data);
+    G.vexs[i].firstedge = NULL;
     getchar();
   }
 
