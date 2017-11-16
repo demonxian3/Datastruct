@@ -86,10 +86,9 @@ void findIndegree(ALGraph G,int *indegree){
       p=p->nextacr;
     }
   }
-
-
 }
 
+// ve[j] = Max { ve[i] + dut<i,j> }
 Status TopoLogicalSort(ALGraph G,Sqstack *T){
   int i,j;
   int count = 0;
@@ -99,41 +98,93 @@ Status TopoLogicalSort(ALGraph G,Sqstack *T){
   findIndegree(G,indegree);
 
   for(i=0;i<G.vexnum;i++)
-    if(!indegree[i]) 
+    if(indegree[i] == 0) 
       pushStack(&S,i);
 
+  //init ve
   for(i=0;i<G.vexnum;i++)
     ve[i]=0;
+ 
+  //debug
+  //for(i=0;i<G.vexnum;i++)
+  //  printf("[%d] = %d\n",i,indegree[i]);
 
+  //使用T栈存储逆排序，方便计算vl
   while(!isEmpty(S)){
     count++;
     popStack(&S,&j);
-    pushStack(&S,j);
+    pushStack(T,j);
     
     //求ve 和 删点j
-    EdgeNode *p = (EdgeNode*)malloc(sizeof(EdgeNode));
+    EdgeNode *p = G.vexs[j].firstedge;
     while(p){
       if( ve[j]+p->info > ve[p->adjvex] )
         ve[p->adjvex] = ve[j] + p->info;
       if(--indegree[p->adjvex] == 0)
-        pushStack(&S,j);
+        pushStack(&S,p->adjvex);
       p = p->nextacr;
     }
   }
 
-  if(count<G.vexnum)return ERROR; //0
-  else return OK; //1
+  if(count!=G.vexnum)return ERROR; //1
+  else return OK; //0
 }
 
+
+// vl[i] = Min{ vl[j] - dut<i,j> }
 Status CriticalPath(ALGraph G){
+  int i,j;
+  int vl[G.vexnum];
+  int ae,al;
   Sqstack T;
   initStack(&T);
-  if(!TopoLogicalSort(G,&T)){
+  if(TopoLogicalSort(G,&T)){
     printf("The AOE have loop!!\n");
     return ERROR;
   }
- 
   
+  //求vl
+  for(i=0;i<G.vexnum;i++)
+    vl[i] = INFINITY;
+
+  //汇点 最迟开始时间 等于 最早开始时间
+  vl[G.vexnum-1] = ve[G.vexnum-1];
+
+  while(!isEmpty(T)){
+    popStack(&T,&j);
+    EdgeNode* p = G.vexs[j].firstedge;
+    while(p){
+      if( vl[p->adjvex] - p->info < vl[j])
+        vl[j] = vl[p->adjvex] - p->info;
+      p = p->nextacr;
+    }
+  }
+
+  // debug 
+  /*
+  for(i=0;i<G.vexnum;i++)
+    printf("[%d] = %d\n",i,ve[i]);
+
+  for(i=0;i<G.vexnum;i++)
+    printf("[%d] = %d\n",i,vl[i]);
+  */
+
+  //比较 Ae 和 Al,相等则输出关键路径
+  for(i=0;i<G.vexnum;i++){
+    EdgeNode *p = G.vexs[i].firstedge; 
+    ae = ve[i];
+    while(p){
+      j = p->adjvex;
+      al = vl[j] - p->info;
+      if(ae == al)
+        printf("[Critical] %c -> %c : %d\n", 
+          G.vexs[i].data,
+          G.vexs[j].data,
+          p->info
+        );
+      p = p->nextacr;
+    }
+  }
 }
 
 

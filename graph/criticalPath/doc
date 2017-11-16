@@ -73,7 +73,7 @@
 参照图 sample.png 计算图的AOE序列
 
 
-求Ve:  
+求Ve:  Ve(j) = Max{ Ve(i) + dut<i,j> }
 Ve(1) = 0				#源点
 Ve(2) = Ve(1)+dut(<1,2>) = 6
 Ve(3) = Ve(1)+dut(<1,3>) = 4
@@ -84,7 +84,7 @@ Ve(7) = Ve(5)+dut(<5,7>) = 16
 Ve(8) = max{ Ve(5)+dut(<5,8>),Ve(6)+dut(<6,8>) } = max{ 14,11 } = 14
 Ve(9) = max{ Ve(7)+dut(<7,9>),Ve(8)+dut(<8,9>) } = max{ 18,18 } = 18
 
-求Vl:
+求Vl:   Vl(i) = Min{ Vl(i) - dut<i,j> }
 Vl(9) = 18
 Vl(8) = Vl(9) - dut(<8,9>) = 14
 Vl(7) = Vl(9) - dut(<7,9>) = 16

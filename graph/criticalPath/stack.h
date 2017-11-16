@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define OK 1
-#define ERROR 0
+#define OK 0
+#define ERROR 1
 #define OVERFLOW -2
 #define MAX 100
 #define TRUE 1
