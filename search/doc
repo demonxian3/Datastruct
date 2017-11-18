@@ -1,0 +1,155 @@
+This is record for three search method result;
+
+*******************************************************
+*		   Sequential Search                  *
+*******************************************************
+[input]
+[1]31
+[2]42
+[3]7
+[4]11
+[5]49
+[6]38
+[7]20
+[8]5
+[9]73
+[10]39
+[11]16
+[12]55
+
+Enter the num of data: 12
+[1]Input Value: 31
+[2]Input Value: 42
+[3]Input Value: 7
+[4]Input Value: 11
+[5]Input Value: 49
+[6]Input Value: 38
+[7]Input Value: 20
+[8]Input Value: 5
+[9]Input Value: 73
+[10]Input Value: 39
+[11]Input Value: 16
+[12]Input Value: 55
+Enter the key value: 1
+Sorry the key was not found!
+Enter the key value: 31
+Found it,the key's index is 1
+Enter the key value: 55
+Found it,the key's index is 12
+Enter the key value: 38
+Found it,the key's index is 6
+Enter the key value: 39
+Found it,the key's index is 10
+Enter the key value: 40
+Sorry the key was not found!
+Enter the key value: 41
+Sorry the key was not found!
+
+
+*******************************************************
+*		      Binary Search                   *
+*******************************************************
+[input]
+[1]11
+[2]22
+[3]33
+[4]44
+[5]55
+[6]66
+[7]77
+[8]88
+
+Enter the number of key: 8
+[1]input value: 11
+[2]input value: 22
+[3]input value: 33
+[4]input value: 44
+[5]input value: 55
+[6]input value: 66
+[7]input value: 77
+[8]input value: 88
+[1] 11
+[2] 22
+[3] 33
+[4] 44
+[5] 55
+[6] 66
+[7] 77
+[8] 88
+Enter the key value for search: 11
+Found it,the key's index is:1
+Enter the key value for search: 88
+Found it,the key's index is:8
+Enter the key value for search: 44
+Found it,the key's index is:4
+Enter the key value for search: 45
+Sorry,the key is not found
+Enter the key value for search: 10
+Sorry,the key is not found
+Enter the key value for search: 90
+Sorry,the key is not found
+Enter the key value for search: 66
+Found it,the key's index is:6
+
+*******************************************************
+*		    Blocking Search                   *
+*******************************************************
+[Input]
+20	11	7	8	18	->	idx:1  mx:20
+31	40	42	39	22	->	idx:6  mx:42
+47	55	72	83	51	->	idx:11 mx:83
+
+Enter the num of key: 15
+Enter the num of block: 3
+[1] Enter beginIndex: 1
+[0] Enter maxValue: 20
+[2] Enter beginIndex: 6
+[1] Enter maxValue: 42
+[3] Enter beginIndex: 11
+[2] Enter maxValue: 83
+======= Don't more than the MaxValue: 20 =========
+[1] Enter Keyvalue: 20
+[2] Enter Keyvalue: 11
+[3] Enter Keyvalue: 7
+[4] Enter Keyvalue: 8
+[5] Enter Keyvalue: 18
+======= Don't more than the MaxValue: 42 =========
+[6] Enter Keyvalue: 31
+[7] Enter Keyvalue: 40
+[8] Enter Keyvalue: 42
+[9] Enter Keyvalue: 39
+[10] Enter Keyvalue: 22
+======= Don't more than the MaxValue: 83 =========
+[11] Enter Keyvalue: 47
+[12] Enter Keyvalue: 55
+[13] Enter Keyvalue: 72
+[14] Enter Keyvalue: 83
+[15] Enter Keyvalue: 51
+indx[1]: beginIdx=1, maxValue=20 
+indx[2]: beginIdx=6, maxValue=42 
+indx[3]: beginIdx=11, maxValue=83 
+( 1)20 ( 2)11 ( 3)7 ( 4)8 ( 5)18 
+( 6)31 ( 7)40 ( 8)42 ( 9)39 (10)22 
+(11)47 (12)55 (13)72 (14)83 (15)51 
+Enter the key value: 1
+search in range [1 ~ 6] 
+Sorry the key was not found
+Enter the key value: 20
+search in range [1 ~ 6] 
+Found it,the index is 1
+Enter the key value: 8 
+search in range [1 ~ 6] 
+Found it,the index is 4
+Enter the key value: 51
+search in range [11 ~ 81] 
+Found it,the index is 15
+Enter the key value: 44
+search in range [11 ~ 81] 
+Sorry the key was not found
+Enter the key value: 40
+search in range [6 ~ 11] 
+Found it,the index is 7
+Enter the key value: 83
+search in range [11 ~ 81] 
+Found it,the index is 14
+

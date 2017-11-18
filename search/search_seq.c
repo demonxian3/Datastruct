@@ -35,18 +35,17 @@ int main(){
   printf("Enter the num of data: ");
   scanf("%d",&n);
   createTestData(data,n);
-  //debug
-  for(i=1;i<=n;i++)
-    printf("%d \n",data[i].key);
  
-  printf("Enter the key value: ");
-  scanf("%d",&key);
+  while(1){
+    printf("Enter the key value: ");
+    scanf("%d",&key);
 
-  res = search_seq(data,key,n); 
-  if(!res){
-    printf("Sorry the key was not found!\n");
-  }else{
-    printf("Found it,the key's index is %d\n",res);
+    res = search_seq(data,key,n); 
+    if(!res)
+      printf("Sorry the key was not found!\n");
+    else
+      printf("Found it,the key's index is %d\n",res);
+  
   }
   return 0;
 }
