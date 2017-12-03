@@ -1,9 +1,12 @@
 /****************************
  *  This program merge the  * 
  *  Create function and Se  *
- *  arch function, very co  *
- *  ol, the code's referer  *
- *  is book;                *
+ *  arch function, searchi  *
+ *  ng while adding the el  *
+ *  ement. if element is e  *
+ *  xited, return message,  *
+ *  else add the element t  *
+ *  o the tree              *
  * **************************/
 
 #include <stdio.h>
@@ -54,16 +57,26 @@ Status insertBST(BitTree *T,KeyType e){
   }
 }
 
-BitTree createBST(n){
+BitTree createBST(){
   int i;
   BitTree T = NULL;   //NULL must be used as an initial value, look the label :NM:
+  
   KeyType key;
-  for(i=0;i<n;i++){
-    printf("[%d]key-value: ",i);
+  printf("Enter the first key: ");
+  scanf("%d",&key);
+
+  while(key>0){    //当key=0结束
+
+    if(!insertBST(&T,key))   //直接用T不会改变T的值，因此每次都是从T=NULL开始。
+      printf("Find the key: %d\n",key);
+    else
+      printf("Add a element: %d\n",key);
+    
+    printf("Enter the key: "); //read the next key
     scanf("%d",&key);
-    if(!insertBST(&T,key))  //直接用T不会改变T的值，因此每次都是从T=NULL开始。
-      printf("%d is exited \n",key);
+
   }
+
   return T;
 }
 
@@ -76,9 +89,8 @@ InOrder(BitTree T){
 }
 
 int main(){
-  int num,key;
-  printf("Enter the BST-tree number: ");
-  scanf("%d",&num);
-  BitTree T = createBST(num); 
-  //InOrder(T);  //debug
+  int key;
+  BitTree T = createBST(); 
+  InOrder(T);  //other useage
+  printf("\n");
 }
