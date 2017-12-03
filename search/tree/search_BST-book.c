@@ -57,6 +57,47 @@ Status insertBST(BitTree *T,KeyType e){
   }
 }
 
+Status delete(BitTree *T){
+  BitTree p = *T;
+  BitTree q=NULL, s=NULL;
+  if(! p->rchild ){   //no right son
+    q = p;
+    p = p->lchild;
+    free(q);
+  }else if(!p->lchild){ //no left son
+    q = p;
+    p = p->rchild;
+    free(p);
+  }else{   //exited two son
+    q = p;
+    s = p->lchild;
+    while(s->rchild){
+      q = s;
+      s = s->rchild;
+    }
+
+    p->data = s->data;
+    if(q != p)
+      q->rchild = s->lchild;
+    else
+      q->lchild = s->lchild;
+  
+   free(s);
+  }
+  return TRUE;
+}
+
+Status deleteBST(BitTree *T,KeyType key){
+  if(!(*T))return FALSE;
+  else{
+    if(key == (*T)->data.key)
+      return delete(T);
+    else if(key < (*T)->data.key)
+      return deleteBST( &((*T)->lchild), key );
+    else return deleteBST( &((*T)->rchild), key );
+  }
+}
+
 BitTree createBST(){
   int i;
   BitTree T = NULL;   //NULL must be used as an initial value, look the label :NM:
@@ -93,4 +134,13 @@ int main(){
   BitTree T = createBST(); 
   InOrder(T);  //other useage
   printf("\n");
+
+  while(1){
+    printf("[Delete Test] Enter the key: ");
+    scanf("%d",&key);
+    getchar();
+    deleteBST(&T,key);
+    InOrder(T); 
+    printf("\n");
+  }
 }
