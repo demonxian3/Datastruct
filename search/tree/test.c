@@ -57,35 +57,33 @@ Status insertBST(BitTree *T,KeyType e){
   }
 }
 
-Status delete(BitTree T){
-  BitTree p;
-  BitTree q=NULL, s=NULL;
+Status delete(BitTree *T){
+  BitTree p=NULL, q=NULL, s=NULL;
 
-  if( !T->rchild ){   //no right son
-    q = T;
-    T = T->lchild;
+  if( !(*T)->rchild ){   //no right son
+    q = *T;
+    (*T) = (*T)->lchild;
     free(q);
 
-  }else if( !p->lchild ){ //no left son
-    q = p;
-    T = T->rchild;
-    free(p);
+  }else if( !(*T)->lchild ){ //no left son
+    q = *T;
+    (*T) = (*T)->rchild;
+    free(q);
 
   }else{   //exited two son
-    p = T;
-    q = p;
-    s = p->lchild;
+    p = q = (*T);
+    s = (*T)->lchild;
     while(s->rchild){
       q = s;
       s = s->rchild;
     }
 
-    p->data = s->data;
+    (*T)->data = s->data;
 
-    if( q!=p )
+    if( q != (*T) )
       q->rchild = s->lchild;
     else
-      q->lchild = s->lchild;
+      (*T)->lchild = s->lchild;
   
     free(s);
   }
@@ -93,15 +91,15 @@ Status delete(BitTree T){
   return TRUE;
 }
 
-Status deleteBST(BitTree T,KeyType key){
-  if(!T)return FALSE;
+Status deleteBST(BitTree *T,KeyType key){
+  if(!(*T))return FALSE;
   else{
-    if(key == T->data.key)
+    if(key == (*T)->data.key)
       return delete(T);
-    else if(key < T->data.key)
-      return deleteBST( T->lchild, key );
+    else if(key < (*T)->data.key)
+      return deleteBST( &((*T)->lchild), key );
     else 
-      return deleteBST( T->rchild, key );
+      return deleteBST( &((*T)->rchild), key );
   }
 }
 
@@ -146,7 +144,7 @@ int main(){
     printf("[Delete Test] Enter the key: ");
     scanf("%d",&key);
     getchar();
-    deleteBST(T,key);
+    deleteBST(&T,key);
     InOrder(T); 
     printf("\n");
   }
