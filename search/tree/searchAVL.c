@@ -232,22 +232,20 @@ int main(){
   A->rchild = E;
 
   B->lchild = C;
-  E->lchild = F;
+  E->rchild = F;
 
   C->rchild = D;
   G->rchild = H;
 
   getDepth(T);
-  
   BitTree p = findp(T);
-  
-  
-  //printf("gdb\n");
+  adjustTree(&p,C);
 
-
+  printf("gdb\n");
+  getDepth(T);
   
   
-  
+  printf("gdb\n");
   //while(1){
   //  InOrder(T);
   //  printf("\n");
