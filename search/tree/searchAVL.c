@@ -21,6 +21,112 @@ BitTree createNode(int a){
   return T;
 }
 
+Status swap(int *A,int *B){
+  *A -= *B;
+  *B += *A;
+  *A = *B - *A;
+}
+
+void InOrder(BitTree T){
+  if(T){
+    InOrder(T->lchild);
+    printf("%d ",T->data);
+    InOrder(T->rchild);
+  }
+}
+
+
+
+int getDepth(BitTree T){
+  if(!T) return 0;
+  int lbf = getDepth(T->lchild);
+  int rbf = getDepth(T->rchild);
+  T->bf = lbf - rbf;
+  return lbf > rbf ? lbf+1 : rbf+1;
+}
+
+BitTree findNode(BitTree T){
+  if(!T) return NULL;
+  BitTree L = findNode(T->lchild);
+  BitTree R = findNode(T->rchild);
+  if(L) return L;
+  else if(R) return R;
+  else if(T->bf == 2 || T->bf == -2)return T;
+  else return NULL;
+}
+
+Status R_Rotate(BitTree T){
+  if(!T && T->lchild) return FALSE;
+  
+  BitTree L = T->lchild;
+
+  swap(&(T->data) , &(L->data) );
+  T->lchild = L->lchild;
+  L->lchild = L->rchild;
+  L->rchild = T->rchild;
+  T->rchild = L;
+
+  return TRUE;
+}
+
+Status L_Rotate(BitTree T){
+  if(!T && T->rchild) return FALSE;
+  
+  BitTree R = T->rchild;
+  
+  swap( &(T->data) , &(R->data));
+  T->rchild = R->rchild;
+  R->rchild = R->lchild;
+  R->lchild = T->lchild;
+  T->lchild = R;
+ 
+  return TRUE;
+}
+
+Status adjustTree(BitTree Root){
+  if(!Root) return FALSE;
+  getDepth(Root);  			//flush every node's bf
+  
+  BitTree R = NULL, L = NULL;
+  BitTree T = findNode(Root);		//unbalance node
+  if(!T) return FALSE;
+  //printf("%d\n",T->data);
+
+  switch(T->bf){
+    case -2: R = T->rchild;break;
+    case  2: L = T->lchild;break;
+  }
+  
+  if(R){
+    switch(R->bf){
+      case -1: 				//RR
+	L_Rotate(T);
+	break;
+
+      case  1:				//RL
+	R_Rotate(R);
+	L_Rotate(T);
+	break;
+    }
+  }
+
+  if(L){
+    switch(L->bf){
+      case   1:				//LL
+	R_Rotate(T);
+	break;
+
+      case  -1:				//LR
+	L_Rotate(L);
+	R_Rotate(T);
+	break;
+    }
+  }
+
+  return TRUE;
+}
+
+
 Status search(BitTree T,int a,BitTree *p){
 
   if(!T)return FALSE;
@@ -48,6 +154,12 @@ Status insert(BitTree *T,int a){
     else
        p->rchild = new;
 
+    //AVL adjust
+    printf("gdb");
+    if(!adjustTree(*T))printf("no adjust\n");
+    else printf("adjusted\n");
+    printf("gdb");
+
     return TRUE;
 
   }else 
@@ -56,6 +168,9 @@ Status insert(BitTree *T,int a){
 
 Status delete(BitTree *T){
   BitTree tmp = *T;
+  BitTree test = malloc(sizeof(Bitnode));
+  test->data = 77;
+
   if(!tmp->rchild && !tmp->lchild ) {*T=NULL;free(tmp);}
   else if(!tmp->lchild) {*T=tmp->rchild;free(tmp);}
   else if(!tmp->rchild) {*T=tmp->lchild;free(tmp);}
@@ -82,6 +197,10 @@ Status delete(BitTree *T){
     lc=NULL;
     free(lc);
   }
+
+  printf("gdb");
+  adjustTree(*T);
+  printf("gdb");
 }
 
 Status deleteAVL(BitTree *T,int key){
@@ -98,179 +217,37 @@ Status deleteAVL(BitTree *T,int key){
   }
 }
 
-int getDepth(BitTree T){
-  if(!T)return 0;
-  int leftLen = getDepth(T->lchild);
-  int rightLen = getDepth(T->rchild);
-  T->bf = leftLen - rightLen;
-
-  return leftLen > rightLen ? leftLen+1 : rightLen+1 ;
-}
-
-BitTree findp(BitTree p){
-  if(!p)return NULL;
-  BitTree lc = findp(p->lchild);
-  BitTree rc = findp(p->rchild);
-  if(lc)return lc;
-  else if(rc)return rc;
-  else if(p->bf==2)return p;
-  else return NULL;
-}
-
-//@@issue: how to catch p and k
-//the p is that the balance facctor is more than 1
-//the k is that the newNode's parents;
-
-Status adjustTree(BitTree *p,BitTree k){
-  BitTree t = NULL;
-  BitTree n = NULL;
-
-  if((*p)->bf > 0){
-      t = (*p)->lchild;
- 
-      if(t->bf > 0){               //LL
-          (*p)->lchild = t->rchild;
-          t->rchild = *p;
-          *p = t;
-
-
-      }else{                       //LR
-          if(k->bf > 0) {
-
-            n=k->lchild;
-            n->lchild = t;
-            n->rchild = *p;
-            (*p)->lchild = NULL;
-            *p = n;
-            k->lchild = NULL;
-      
-          }else{
-
-            n=k->rchild;
-            n->lchild = t;
-            n->rchild = *p;
-            (*p)->lchild = NULL;
-            *p = n;
-            k->rchild = NULL;
-
-          }
-      }
-  }
-
-
-  else{
-      t = (*p)->rchild;
-
-      if(t->bf < 0){               //RR
-          (*p)->rchild = t->lchild;
-          t->lchild = *p;
-          *p = t;
-
-
-      }else{                       //RL
-          if(k->bf > 0) {
-
-            n=k->lchild;
-            n->rchild = t;
-            n->lchild = *p;
-            (*p)->rchild = NULL;
-            *p = n;
-            k->lchild = NULL;
-
-          }else{
-
-            n=k->rchild;
-            n->rchild = t;
-            n->lchild = *p;
-            (*p)->rchild = NULL;
-            *p = n;
-            k->rchild = NULL;
-
-          }
-      }  
-  }  
-}
-  
-
-void ajustMain(BitTree *T,BitTree k){
-  getDepth(*T);
-  BitTree p = findp(*T);
-  adjustTree(&p,k);
-}
-
-
-
-
-void InOrder(BitTree T){
-  if(T){
-    InOrder(T->lchild);
-    printf("%d ",T->data);
-    InOrder(T->rchild);
-  }
-}
-
 
 int main(){
-  //BitTree T = NULL; 
-  //char c;
-  //int a = 3;
+  BitTree T = NULL; 
+  char c;
+  int a = 3;
 
-  BitTree T = createNode(100);
-  BitTree A = createNode(70);
-  BitTree B = createNode(50);
-  BitTree C = createNode(30);
-  BitTree D = createNode(40);
-  BitTree E = createNode(80);
-  BitTree F = createNode(90);
-  BitTree G = createNode(110);
-  BitTree H = createNode(120);
-  
-  T->lchild = A;
-  T->rchild = G;
+  while(1){
+    InOrder(T);
+    printf("\n");
 
-  A->lchild = B;
-  A->rchild = E;
-
-  B->lchild = C;
-  E->rchild = F;
-
-  C->rchild = D;
-  G->rchild = H;
-
-  getDepth(T);
-  BitTree p = findp(T);
-  adjustTree(&p,C);
-
-  printf("gdb\n");
-  getDepth(T);
-  
-  
-  printf("gdb\n");
-  //while(1){
-  //  InOrder(T);
-  //  printf("\n");
-
-  //  printf("input order:");
-  //  c = getchar();
+    printf("input order:");
+    c = getchar();
  
-  //  if(c == 'i'){
-  //    printf("insert key:");
-  //    scanf("%d",&a);
-  //    getchar();
-  //    if(insert(&T,a))printf("Insert succesfully\n");
-  //    else printf("Insert failedy\n");
-  //  }
+    if(c == 'i'){
+      printf("insert key:");
+      scanf("%d",&a);
+      getchar();
+      if(insert(&T,a))printf("Insert succesfully\n");
+      else printf("Insert failedy\n");
+    }
 
-  //  if(c == 'd'){
-  //    printf("delete key:");
-  //    scanf("%d",&a);
-  //    getchar();
-  //    if(deleteAVL(&T,a))printf("delete successfully\n");
-  //    else printf("Delete failed\n");
-  //  }
+    if(c == 'd'){
+      printf("delete key:");
+      scanf("%d",&a);
+      getchar();
+      if(deleteAVL(&T,a))printf("delete successfully\n");
+      else printf("Delete failed\n");
+    }
 
-  //}
+  }
   
-  //printf("%d\n",T->data);
+  printf("%d\n",T->data);
   return 0;
 }
