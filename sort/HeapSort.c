@@ -13,12 +13,11 @@ typedef struct {
   int length;
 } Sqlist;
 
-int SIFT(Sqlist *H, int i, int m){
-  int j,tmp,count=0;
+void SIFT(Sqlist *H, int i, int m){
+  int j,tmp;
   tmp = H->data[i].key;			//record Head-top
   
   for(j=2*i; j<=m; j*=2){
-    count++;
     if(j<m && H->data[j].key > H->data[j+1].key ) //minc = lc > rc ? rc : lc;
       j++;
 
@@ -29,27 +28,26 @@ int SIFT(Sqlist *H, int i, int m){
   }
 
   H->data[i].key = tmp;			//Insert value to minc-index;
-  return count;
+  return ;
 }
 
-int HeapSort(Sqlist *H){
+void HeapSort(Sqlist *H){
   int i,j;
   int tmp;
   int len = H->length;
-  int count = 0;
 
   for(i=(len/2); i>0; i--){	//built Init-Heap
-    count += SIFT(H,i,len);
+    SIFT(H,i,len);
   }
 
   for(i=len; i>1; i--){		
     tmp = H->data[1].key;	//swap Heap-top and Heap-last
     H->data[1].key = H->data[i].key;
     H->data[i].key = tmp;
-    count += SIFT(H,1,i-1);	//adjust to Heap
+    SIFT(H,1,i-1);	//adjust to Heap
   }
   
-  return count;
+  return ;
 }
 
 int main(){
@@ -64,13 +62,12 @@ int main(){
      scanf("%d",&L.data[i].key);
   }
 
-  int n = HeapSort(&L);
+  HeapSort(&L);
 
   
   for(int i=L.length;i>0;i--)
      printf("[%d] ",L.data[i].key);
   printf("\n");
   
-  printf("count:%d\n",n);
   return 0;
 }

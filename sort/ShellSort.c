@@ -15,10 +15,9 @@ typedef struct {
 
 
 
-int ShellSort(Sqlist *L,int *d,int t){
+void ShellSort(Sqlist *L,int *d,int t){
   int i,j,k;
   int len = L->length;
-  int count = 0;
   
   for(k=0; k<t; k++){			//参数t为趟数，这里执行三趟
     for(i=d[k]+1; i<=len; i++){		//一趟增量为d[k]的插入排序  增量为１时原始的直接插入排序
@@ -28,7 +27,6 @@ int ShellSort(Sqlist *L,int *d,int t){
 
         //判断是否大于岗哨，是则后挪d[k]位，腾出空为插入岗哨值
         for(j=i; (j>0) && (L->data[0].key < L->data[j-d[k]].key) ; j-=d[k]){
-          ++count;				//计数
 	  L->data[j].key = L->data[j-d[k]].key;  //隔d[k]位后挪
         }
 
@@ -40,7 +38,7 @@ int ShellSort(Sqlist *L,int *d,int t){
 
   }//for
 
-  return count;
+  return ;
 }
 
 int main(){
@@ -61,12 +59,11 @@ int main(){
   d[1] = 3;
   d[2] = 1;
 
-  int n = ShellSort(&L,d,t);
+  ShellSort(&L,d,t);
 
   for(int i=1;i<=L.length;i++)
      printf("[%d] ",L.data[i].key);
   printf("\n");
   
-  printf("count:%d\n",n);
   return 0;
 }

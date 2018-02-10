@@ -14,11 +14,10 @@ typedef struct {
 } Sqlist;
 
 
-int BinSort(Sqlist *L){
+void BinSort(Sqlist *L){
   int i,j;
   int low,mid,high;
   int len = L->length;
-  int count = 0;
 
   for(i=2; i<=len; i++){
     low=1;
@@ -28,7 +27,6 @@ int BinSort(Sqlist *L){
 
     while(low<=high){
       mid = (high+low)/2;
-      count++;
       if(L->data[i].key < L->data[mid].key)
         high = mid - 1;
       else
@@ -36,13 +34,12 @@ int BinSort(Sqlist *L){
     }
 
     for(j=i; j>low; j--){
-      count++;
       L->data[j].key = L->data[j-1].key;
     }
 
     L->data[low].key = L->data[0].key;
   }
-  return count;
+  return ;
 }
 int main(){
  
@@ -56,11 +53,10 @@ int main(){
      scanf("%d",&L.data[i].key);
   }
 
-  int n = BinSort(&L);
+  BinSort(&L);
 
   for(int i=1;i<=L.length;i++)
      printf("[%d] ",L.data[i].key);
-  
-  printf("count:%d\n",n);
+  printf("\n");
   return 0;
 }

@@ -14,10 +14,9 @@ typedef struct {
 } Sqlist;
 
 
-int InsertSort(Sqlist *L){
+void InsertSort(Sqlist *L){
   int i,j;
   int len = L->length;
-  int count = 0;
 
   for(i=2; i<=len; i++){
     if( L->data[i].key < L->data[i-1].key ){
@@ -25,14 +24,13 @@ int InsertSort(Sqlist *L){
 
       for(j=i; L->data[0].key < L->data[j-1].key; j--){
          L->data[j].key = L->data[j-1].key;  //KEY[i] = KEY[i-1] pre-move one
-         count++;
       }
 
       L->data[j].key = L->data[0].key;
     }
   }
 
-  return count;
+  return ;
 
 }
 
@@ -48,12 +46,11 @@ int main(){
      scanf("%d",&L.data[i].key);
   }
 
-  int n = InsertSort(&L);
+  InsertSort(&L);
 
   for(int i=1;i<=L.length;i++)
      printf("[%d] ",L.data[i].key);
   printf("\n");
   
-  printf("count:%d\n",n);
   return 0;
 }

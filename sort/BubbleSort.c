@@ -14,11 +14,10 @@ typedef struct {
 } Sqlist;
 
 
-int BubbleSort(Sqlist *L){
+void BubbleSort(Sqlist *L){
   int i,j;
   int tmp;
   int len = L->length;
-  int count = 0;
 
   for(i=1; i<=len; i++){
     for(j=len; j>i; j--){			//从尾开始两两比较，小的放前
@@ -26,11 +25,10 @@ int BubbleSort(Sqlist *L){
         tmp = L->data[j].key;
         L->data[j].key = L->data[j-1].key;
         L->data[j-1].key = tmp;
-        count++;
       }
     }
   }
-  return count;
+  return ;
 
 }
 
@@ -46,12 +44,11 @@ int main(){
      scanf("%d",&L.data[i].key);
   }
 
-  int n = BubbleSort(&L);
+  BubbleSort(&L);
 
   for(int i=1;i<=L.length;i++)
      printf("[%d] ",L.data[i].key);
   printf("\n");
   
-  printf("count:%d\n",n);
   return 0;
 }

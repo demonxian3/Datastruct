@@ -1,0 +1,35 @@
+#!/usr/bin/expect
+
+set timeout 1
+
+spawn "./a.out"
+expect {
+  "number" {send "7\r"}
+}
+
+expect {
+  "1" {send "38\r"}
+}
+expect {
+  "2" {send "49\r"}
+}
+expect {
+  "3" {send "65\r"}
+}
+expect {
+  "4" {send "97\r"}
+}
+expect {
+  "5" {send "76\r"}
+}
+expect {
+  "6" {send "13\r"}
+}
+expect {
+  "7" {send "27\r"}
+}
+expect {
+  "7" {send "27\r"}
+}
+
+exit

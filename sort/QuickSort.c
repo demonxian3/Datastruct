@@ -14,35 +14,36 @@ typedef struct {
 } Sqlist;
 
 
-void SelectSort(Sqlist *L){
+void QuickSort(Sqlist *L,int low,int high){
   int i,j;
-  int min;
   int len = L->length;
+  int pivotkey;
 
-  for(i=1; i<=len; i++){
-    min = i;			//min记录最小关键字的索引
- 
-    for(j=i+1; j<=len; j++){
-      if(L->data[j].key < L->data[min].key)	//寻找位排序序列最小值
-        min = j;
-    }
- 
-    if(min != i){				//最小值与头部交换值
-      int tmp = L->data[min].key;
-      L->data[min].key = L->data[i].key;
-      L->data[i].key = tmp;
-    }
+  i=low;
+  j=high;
+  pivotkey = L->data[0].key = L->data[i].key;
+
+  while(i<j){
+    while(i<j && L->data[j].key >= pivotkey )
+      j--;
+    L->data[i].key = L->data[j].key;
+    
+    while(i<j && L->data[i].key <= pivotkey )
+      i++;
+    L->data[j].key = L->data[i].key;
   }
 
-  return ;
+  L->data[i].key = L->data[0].key;
 
+  if(low < i )  QuickSort(L,low,i-1); 
+  if(j < high) QuickSort(L,j+1,high);
 }
 
 int main(){
  
   Sqlist L;  
 
-  printf("*** SelectSort ***\nInput key's number:");
+  printf("*** QuickSort ***\nInput key's number:");
   scanf("%d",&L.length);
   
   for(int i=1;i<=L.length;i++){
@@ -50,7 +51,7 @@ int main(){
      scanf("%d",&L.data[i].key);
   }
 
-  SelectSort(&L);
+  QuickSort(&L,1,L.length);
 
   for(int i=1;i<=L.length;i++)
      printf("[%d] ",L.data[i].key);
