@@ -42,7 +42,7 @@ void ShellSort(Sqlist *L,int *d,int t){
 }
 
 int main(){
- 
+  int i;
   int t = 3;		//趟数
   int d[t];		//增量数组
   Sqlist L;  
@@ -50,7 +50,7 @@ int main(){
   printf("*** ShellSort ***\nInput key's number:");
   scanf("%d",&L.length);
   
-  for(int i=1;i<=L.length;i++){
+  for(i=1;i<=L.length;i++){
      printf("input key[%d]:",i);
      scanf("%d",&L.data[i].key);
   }
@@ -61,7 +61,7 @@ int main(){
 
   ShellSort(&L,d,t);
 
-  for(int i=1;i<=L.length;i++)
+  for(i=1;i<=L.length;i++)
      printf("[%d] ",L.data[i].key);
   printf("\n");
   

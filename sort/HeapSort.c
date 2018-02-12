@@ -51,13 +51,13 @@ void HeapSort(Sqlist *H){
 }
 
 int main(){
- 
+  int i;
   Sqlist L;  
 
   printf("*** HeapSort ***\nInput key's number:");
   scanf("%d",&L.length);
   
-  for(int i=1;i<=L.length;i++){
+  for(i=1;i<=L.length;i++){
      printf("input key[%d]:",i);
      scanf("%d",&L.data[i].key);
   }
@@ -65,7 +65,7 @@ int main(){
   HeapSort(&L);
 
   
-  for(int i=L.length;i>0;i--)
+  for(i=L.length;i>0;i--)
      printf("[%d] ",L.data[i].key);
   printf("\n");
   

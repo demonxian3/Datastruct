@@ -40,20 +40,20 @@ void QuickSort(Sqlist *L,int low,int high){
 }
 
 int main(){
- 
+  int i;
   Sqlist L;  
 
   printf("*** QuickSort ***\nInput key's number:");
   scanf("%d",&L.length);
   
-  for(int i=1;i<=L.length;i++){
+  for(i=1;i<=L.length;i++){
      printf("input key[%d]:",i);
      scanf("%d",&L.data[i].key);
   }
 
   QuickSort(&L,1,L.length);
 
-  for(int i=1;i<=L.length;i++)
+  for(i=1;i<=L.length;i++)
      printf("[%d] ",L.data[i].key);
   printf("\n");
   

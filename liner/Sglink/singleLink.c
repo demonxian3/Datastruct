@@ -2,40 +2,39 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include "link.h"
-
-/************************* link.h API ***************************
- *
- *	struct	Link
- *		Link->data	(ElemType)
- *		Link->next	(Link)
- *		ElemType	(int)
- *		Status		(int)
- *
- *	Status	OK		0
- *		ERROR		1
- *		OVERFLOW	-2
- *		TRUE		1
- *		FALSE		0
- *
- *
- *	初始化链表	initLink(Link *L)
- *	头插法创建节点	createNode_HI(Link L, int num, int isRand)
- *	尾插法创建节点	createNode_TI(Link L, int num, int isRand)
- *	
- *	插入节点	insertNode(Link L, int i, ElemType e)
- *	追加节点	appendNode(Link L, ElemType e)
- *	删除节点	deleteNode(Link L, int i, ElemType *e)
- *	替换节点	replaceNode(Link L, int i, ElemType e)
- *	销毁链表	destroyLink(Link *L)
- *	打印链表	printLink(Link L)
- *
- *	获取长度	getLength_Link(Link L);
- *	获取节点值	getValue_Link(Link L, int i);
- *	获取索引	getIndex_Link(Link L, int begin, ElemType e)
- *
- *		
- ***************************************************************/
+#include "singleLink.h"
+/************************* link.h API *******************************    
+ *                                                                  *       
+ *	struct	Link                                                *       
+ *		Link->data	(ElemType)                          *       
+ *		Link->next	(Link)                              *       
+ *		ElemType	(int)                               *       
+ *		Status		(int)                               *       
+ *                                                                  *       
+ *	Status	OK		0                                   *       
+ *		ERROR		1                                   *       
+ *		OVERFLOW	-2                                  *       
+ *		TRUE		1                                   *       
+ *		FALSE		0                                   *       
+ *                                                                  *       
+ *                                                                  *       
+ *	初始化链表	initLink(Link *L)                           *       
+ *	头插法创建节点	createNode_HI(Link L, int num, int isRand)  *       
+ *	尾插法创建节点	createNode_TI(Link L, int num, int isRand)  *       
+ *	                                                            *       
+ *	插入节点	insertNode(Link L, int i, ElemType e)       *       
+ *	追加节点	appendNode(Link L, ElemType e)              *       
+ *	删除节点	deleteNode(Link L, int i, ElemType *e)      *       
+ *	替换节点	replaceNode(Link L, int i, ElemType e)      *       
+ *	销毁链表	destroyLink(Link *L)                        *       
+ *	打印链表	printLink(Link L)                           *       
+ *                                                                  *       
+ *	获取长度	getLength_Link(Link L);                     *       
+ *	获取节点值	getValue_Link(Link L, int i);               *       
+ *	获取索引	getIndex_Link(Link L, int begin, ElemType e)*       
+ *                                                                  *       
+ *		                                                    *       
+ ********************************************************************/         
  
 void printCommand(){
   system("clear");
@@ -152,11 +151,10 @@ int main(){
     }
 
     else if(c == 'e'){
-	exit(0);0
+	exit(0);
     }
 
 
     
   }
-
 }

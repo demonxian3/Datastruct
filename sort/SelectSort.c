@@ -39,20 +39,20 @@ void SelectSort(Sqlist *L){
 }
 
 int main(){
- 
+  int i;
   Sqlist L;  
 
   printf("*** SelectSort ***\nInput key's number:");
   scanf("%d",&L.length);
   
-  for(int i=1;i<=L.length;i++){
+  for(i=1;i<=L.length;i++){
      printf("input key[%d]:",i);
      scanf("%d",&L.data[i].key);
   }
 
   SelectSort(&L);
 
-  for(int i=1;i<=L.length;i++)
+  for(i=1;i<=L.length;i++)
      printf("[%d] ",L.data[i].key);
   printf("\n");
   
