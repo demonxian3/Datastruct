@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include "sglink.h"
 
-#define  DIGITBIT	1000000		//每个节点存储多少位，1000000表示存储6位长数字
+#define  DIGITBIT	1000000    //每个节点存储多少位，1000000表示存储6位长数字
 
 void storageInLink(Link L, long long digit){
 
@@ -66,28 +66,30 @@ Link mergeLink(Link A,Link B){
 }
 
 int main(){
+  int n,m;
   long long digit1,digit2;
   Link L1,L2;
   initLink(&L1);
   initLink(&L2);
 
   //手动输入
-  printf("Enter first digit: ");
-  scanf("%lld",&digit1);
-  
-  printf("Enter second digit: ");
-  scanf("%lld",&digit2);
+  //printf("Enter first digit: ");
+  //scanf("%lld",&digit1);
+  //
+  //printf("Enter second digit: ");
+  //scanf("%lld",&digit2);
   
 
   //随机生成
-  //srand(time(0));
-  //digit1 = rand();
-  //digit2 = rand();
+  srand(time(0));
+  digit1 = rand();
+  digit2 = rand();
 
   storageInLink(L1,digit1);
   printLink(L1);
   storageInLink(L2,digit2);
   printLink(L2);
+
 
   Link L3 = mergeLink(L1,L2); 
 

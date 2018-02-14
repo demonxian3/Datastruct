@@ -229,7 +229,7 @@ Status printLink(Link L){
   }
 
   while(p){
-    printf("[%d] ",p->data);
+    printf("[%2d] ",p->data);
     p = p->next;
   }
 
@@ -319,9 +319,10 @@ int getIndex_Link(Link L, int begin, ElemType e){
   return i;
 }
 
-//翻转链表
+//全翻转链表
 //输入：*L	链表指针地址
 //输出：状态
+//说明：对整个链表进行翻转，不会生成副本。
 Status reverseLink(Link *L){
   if(!(*L)) return ERROR;
   Link p = (*L)->next;
@@ -337,3 +338,38 @@ Status reverseLink(Link *L){
   
   return OK;
 }
+
+//链表部分翻转
+//输入: *L	链表指针地址
+//	m	开始翻转的位置
+//	n	结束翻转的位置
+//输出：状态
+//说明：将链表的第m个节点到第n个节点进行翻转
+//	该函数将翻转后的结果直接覆盖源链表，不会生成副本
+Status reverseLink_partly(Link *L, int m, int n){
+  if(m <= 0 || n <= 0 || m >= n || n > getLength_Link(*L)) return ERROR;
+
+  Link Head,p,q,f;
+  p = *L;
+  
+  n = n - m; 			 //计算需要翻转的次数
+
+  while(m-- > 1)     		 //找到开始翻转节点的前驱节点，作为头，使用头插法完成翻转
+    p = p->next;
+  
+  Head = p;          		 //Head 为链表中部分节点的相对头
+  f = Head->next;		 //记录相对第一个元素，方便翻转完后链接链表剩下的未翻转节点。
+  p = f->next;			 //从相对第二个元素开始向第一个元素前面插入
+
+  while(n-- > 0 && p){   	 //开始翻转
+    q = p;          		 //多使用一个指针完成翻转操作，否则会丢失原生的next指针
+    p = p->next;
+    q->next = Head->next; 	 //头插法
+    Head->next = q;
+  }
+
+  f->next = p;		 	 //当初的首元素在翻转后成为尾元素，链接链表剩下的未翻转部分
+  return OK;
+}
+
+
