@@ -66,43 +66,43 @@ Status lineEdit(){
   printf("enter a line( # del,@ cls):");
   ch=getchar();
   while(ch!=EOF){
-  while(ch!='\n'){
-    switch(ch){
-      case '#':
-        popStack(s,&ch);
-        break;
-      case '@':
-        clearStack(s);
-        break;
-      default:
-        pushStack(s,ch);
-        break;
+    while(ch!='\n'){
+      switch(ch){
+        case '#':
+          popStack(s,&ch);
+          break;
+        case '@':
+          clearStack(s);
+          break;
+        default:
+          pushStack(s,ch);
+          break;
+      }
+      ch = getchar();
     }
-    ch = getchar();
-  }
 
-  int i;
-  char rev[1024];
+    int i;
+    char rev[1024];
 
-  //input to array
-  for(i=0;s->next;i++){
-    popStack(s,&ch);
-    *(rev+i)=ch;
-  }
-  *(rev+i)='\0';
-  
-  //reverse output
-  for(--i;i>-1;i--){
-    printf("%c",*(rev+i));
-  }
+    //input to array
+    for(i=0;s->next;i++){
+      popStack(s,&ch);
+      *(rev+i)=ch;
+    }
+    *(rev+i)='\0';
+    
+    //reverse output
+    for(--i;i>-1;i--){
+      printf("%c",*(rev+i));
+    }
 
-  printf("\n");
-  clearStack(s);
-  
-  if(ch!=EOF){
-    printf("enter a line:");
-    ch = getchar();
-  }    
+    printf("\n");
+    clearStack(s);
+    
+    if(ch!=EOF){
+      printf("enter a line:");
+      ch = getchar();
+    }    
   }
   destoryStack(s);
 }
