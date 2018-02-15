@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include "singleLink.h"
+#include "sgLink_STD.h"
 /************************* link.h API *******************************    
  *                                                                  *       
  *	struct	Link                                                *       

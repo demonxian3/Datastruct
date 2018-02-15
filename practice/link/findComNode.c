@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include "sglink.h"
+#include "sgLink_EXT.h"
 
 //当两个链表等长，那么等位置向后比较即可
 //如果不等长，长链表前面多出的部分一定不存在公共节点

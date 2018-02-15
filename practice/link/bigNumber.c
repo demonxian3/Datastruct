@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include "sglink.h"
+#include "sgLink_EXT.h"
 
 #define  DIGITBIT	1000000    //每个节点存储多少位，1000000表示存储6位长数字
 

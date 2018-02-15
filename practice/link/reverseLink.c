@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include "sglink.h"
+#include "sgLink_EXT.h"
 
 
 

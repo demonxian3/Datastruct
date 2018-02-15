@@ -439,3 +439,40 @@ Status delDuplicate(Link L){
   return OK;
 }
 
+
+//寻找两个链表相同的值
+//输入：A	第一个链表指针
+//	B	第二个链表指针
+//返回：link	存储相同值的链表
+//说明：对两个链表排序，排完后两个链表的指针依次从前向后比较值
+//	如果相同记录，不同则移动较小值的指针，反复如此，直到其
+//	中一个链表为空，比较的次数为O(m+n),排序时间复杂度为O(n*logN)
+//	总的时间复制度就是排序的时间复杂度
+Link getSameValue(Link A, Link B){
+  if(!A || !B) return NULL;
+
+  sortLink(&A);			//对A B链表快速排序，时间复杂度 0(NlogN)
+  sortLink(&B);
+
+  Link p = A->next;
+  Link q = B->next;
+
+  Link r;
+  initLink(&r);
+
+  while(p && q){
+    if(p->data == q->data) {			//相等相等则加入链表中
+      Link n = malloc(sizeof(Node));
+      n->data = p->data;
+      n->next = r->next;
+      r->next = n;				//头插法存储相同值
+
+      p = p->next;
+      q = q->next;
+    }
+    else if(p->data < q->data) p = p->next;	//谁小谁往前移动    
+    else q = q->next;
+  }
+
+  return r;
+}
