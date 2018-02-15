@@ -38,7 +38,7 @@ Status createNode_HI(Link L, int num, int isRand){
   if(num <= 0 || !L) return ERROR;		//参数不合法
 
   if(isRand){					//非0启用随机填值
-    srand(time(0));				//设置随机种子
+    srand(time(NULL));			//设置随机种子
     for(i = 0; i < num; i++ ){
       new = (Link)malloc(sizeof(Node));
       new->data = rand() % 100 + 1;		//1-100内的随机值
@@ -48,7 +48,7 @@ Status createNode_HI(Link L, int num, int isRand){
   }else{
     for(i = 0; i < num; i++){
       new = (Link)malloc(sizeof(Node));
-      printf("Enter Node-%d: ",i);		//用户填值
+      printf("Enter Node-%d: ",i+1);		//用户填值
       scanf("%d",&new->data);
       new->next = L->next;			//头插
       L->next = new;
@@ -76,7 +76,7 @@ Status createNode_TI(Link L, int num, int isRand){
 
 
   if(isRand){					//非0启用随机填值
-    srand(time(0));				//设置随机种子
+    srand(time(NULL));			//设置随机种子
     for(i = 0; i < num; i++ ){
       new = (Link)malloc(sizeof(Node));
       new->data = rand() % 100 + 1;		//1-100内的随机值
@@ -372,4 +372,70 @@ Status reverseLink_partly(Link *L, int m, int n){
   return OK;
 }
 
+//链表快速排序
+//输入：*L	链表指针地址
+//输出：状态
+//说明：使用快速排序对链表做递增排序，排序结果直接覆盖，不生成副本
+Status sortLink(Link *L){
+  if(!(*L) || !((*L)->next)) return ERROR;
+
+  Link q = NULL;		
+  Link pivot = (*L)->next;	//第一个元素作为中心节点
+  Link p = pivot->next;		//从第二个元素开始分队
+  pivot->next = NULL;		//让中心节点脱离链表
+
+  Link big = (Link)malloc(sizeof(Node));
+  Link sml = (Link)malloc(sizeof(Node));
+  sml->next = big->next = NULL;
+
+  while(p){
+    q = p->next;		//记录链表下一个节点，避免丢失链表指针
+    if(p->data < pivot->data){	//比中心值大，去大队
+      p->next = sml->next;	//直接从链表里摘下放到大队伍里
+      sml->next = p;
+    }else{			//比中心值小，去小队
+      p->next = big->next;	//直接从链表里摘下放到小队伍里
+      big->next = p;
+    }
+    p = q;			//处理链表下一个元素
+  }
+
+  sortLink(&sml);		//递归排序小队
+  sortLink(&big);		//递归排序大队
+  
+  p = sml;
+
+  while(p->next)		//寻找小队的尾部
+    p = p->next;
+  
+  p->next = pivot;		//连接小队和中心节点;
+  pivot->next = big->next;	//连接中心节点和大队;
+  
+  *L = sml;			//赋值给链表参数 
+}
+
+//链表去重
+//输入：L	链表指针
+//输出：状态
+//说明：对已经排序的链表进行去重
+//	直接改变链表，不生成副本
+Status delDuplicate(Link L){
+  if(!L)return ERROR;
+  Link q = NULL;
+  Link t = NULL;
+  Link p = L->next;
+ 
+  while(p){
+    q = p->next;
+    while(q && q->data == p->data){	//如果连续相等尽量后移
+       t = q;
+       q = q->next;
+       free(t);
+    }
+    p->next = q;
+    p = q;
+  }
+
+  return OK;
+}
 
