@@ -4,32 +4,47 @@ set timeout 1
 
 spawn "./a.out"
 expect {
-  "number" {send "7\r"}
+ "number" {send "20\r"}
 }
 
-expect {
-  "1" {send "38\r"}
-}
-expect {
-  "2" {send "49\r"}
-}
-expect {
-  "3" {send "65\r"}
-}
-expect {
-  "4" {send "97\r"}
-}
-expect {
-  "5" {send "76\r"}
-}
-expect {
-  "6" {send "13\r"}
-}
-expect {
-  "7" {send "27\r"}
-}
-expect {
-  "7" {send "27\r"}
-}
-
-exit
+expect "1" 
+send "7\r"
+expect "2" 
+send "11\r"
+expect "3" 
+send "10\r"
+expect "4" 
+send "23\r"
+expect "5" 
+send "9\r"
+expect "6" 
+send "17\r"
+expect "7" 
+send "22\r"
+expect "8" 
+send "13\r"
+expect "9" 
+send "3\r"
+expect "10" 
+send "43\r"
+expect "11" 
+send "1\r"
+expect "12" 
+send "27\r"
+expect "13" 
+send "55\r"
+expect "14" 
+send "73\r"
+expect "15" 
+send "62\r"
+expect "16" 
+send "25\r"
+expect "17" 
+send "4\r"
+expect "18" 
+send "30\r"
+expect "19" 
+send "33\r"
+expect "20" 
+send "31\r"
+interact
