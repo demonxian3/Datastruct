@@ -1,3 +1,4 @@
+#include <time.h>
 #define OK 0
 #define ERROR 1
 #define OVERFLOW -2
@@ -17,18 +18,21 @@ Status initStack(Stack *S){
   return OK;
 }
 
+Status isEmpty_Stack(Stack S){
+  if(!S || !S->next) return TRUE;
+  else return FALSE;
+}
+
 Status createStack(Stack S, int num, int isRand){
   srand(time(0));
   while(num--){
     Stack n = (Stack)malloc(sizeof(Node)); 
-
     if(isRand){
       n->data = rand()%100+1; 
     }else{
       printf("Enter Data: ");
       scanf("%d",&n->data);
     }
-
     n->next = S->next;
     S->next = n;
   }
@@ -43,8 +47,8 @@ Status pushStack(Stack S, ElemType e){
 }
 
 Status popStack(Stack S, ElemType *e){
+  if(isEmpty_Stack(S)) return ERROR;
   Stack p = S->next;
-  if(!p) return OVERFLOW;
   *e = p->data;
   S->next = p->next;
   free(p);
@@ -70,18 +74,13 @@ int getLength_Stack(Stack S){
   return len;
 }
 
-Status isEmpty_Stack(Stack S){
-  if(S->next) return FALSE;
-  else return TRUE;
-}
 
 Status printStack(Stack S){
   if( isEmpty_Stack(S) ){
     printf("Stack is empty\n"); 
     return ERROR;
-  }else{
+  }else
     printf("Stack's length is %d\n",getLength_Stack(S));
-  }
 
   //print data;
   while( S = S->next )
@@ -97,7 +96,6 @@ Status clearStack(Stack S){
     S->next = p->next;
     free(p);
   }
-
   return OK;
 }
 

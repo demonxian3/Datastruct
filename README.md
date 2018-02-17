@@ -3,12 +3,11 @@
 #### The code for learning data-struct,Using the C language to programe it.   
 #### The data-struct contains the following   
 
+#### 首次旅行：&lt;&lt;数据结构(C语言描述)&gt;&gt;
 #### 开始旅行时间: 2017-09-08   
-#### 初步完成时间: 2018-02-11	    
+#### 初步完成时间: 2018-02-11
 
-学习算法：感受大牛的思想，体验算法的效率，品尝代码设计的巧妙，不求实用，只求感受．
-
-###  任务清单:
+###  完成清单:
 
 * 线性表
 	* 顺序表
@@ -104,3 +103,7 @@
 	
 
 ShellSort have issue
+
+
+#### 第二次旅行:   BAT面试算法视频
+#### 开始旅行时间: 2018-02-18
