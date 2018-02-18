@@ -67,6 +67,9 @@ Status deQueue(Queue *q,ElemType *e){
   return OK;
 }
 
+//思路：将字符串同时存进队列和堆栈中
+//      若弹出的队列和堆栈字符相同
+//      则该字符串是回文的
 Status checkPalindrome(char *str){
   char c1,c2;
   char *p = str;

@@ -37,6 +37,7 @@ int FastLog2(int x){
   return exp - 127;  
 }  
 
+//下面是存储二叉树节点的队列的API
 Status isBTQEmpty(BTQueue Q){
   if(Q->rear == Q->front) return TRUE;
   else return FALSE;
@@ -78,6 +79,13 @@ Status destroyBTQ(BTQueue *Q){
   return OK;
 }
 
+
+//创建测试数据的二叉树
+//输出：*T      二叉树指针地址
+//      number  二叉树节点个数    
+//说明：使用队列，当出队一个节点，判断该节点是否为叶子节点
+//      若是则分配空间给左右孩子并入队，若否则不分配空间
+//      反复如此直到节点数量达到number
 void createTestTree(BTree *T,int number){
   srand(time(0));
 
@@ -96,17 +104,17 @@ void createTestTree(BTree *T,int number){
   BTree p = *T;
   i = 0;
 
-  int h = number/2 - 1;  
+  int h = number/2 - 1;     //叶子节点判断依据
 
   do{
     p->data = datas[i];
     
-    if(i<=h){
+    if(i<=h){               //不是叶子节点
       p->lc = malloc(sizeof(BNode));
       p->rc = malloc(sizeof(BNode));
       enBTQ(Q,p->lc);
       enBTQ(Q,p->rc);
-    }else{
+    }else{                  //是叶子节点
       p->lc = NULL;
       p->rc = NULL;
     } 
@@ -133,6 +141,9 @@ void PreOrder(BTree T){
   }
 }
 
+//思路是出队一个节点，打印该节点的值后
+//把双孩子压入队列中，通过log2N函数计算
+//行号 n = log2(N);
 void layerPrint(BTree T){ 
   BTree p;
   BTQueue Q;
@@ -145,7 +156,7 @@ void layerPrint(BTree T){
 
   while(!isBTQEmpty(Q) && ++i<=100){		//i用于防止死循环，和计算当前行数
 
-    if(level != FastLog2(i)){			//如果换行了，打印行号
+    if(level != FastLog2(i)){	  		    //只有换行后的最开始才会打印行号
       level = FastLog2(i);
       printf("\nLEVEL-%d: ",level+1);
     }
