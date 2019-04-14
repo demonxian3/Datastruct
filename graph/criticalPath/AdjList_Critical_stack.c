@@ -170,12 +170,14 @@ Status CriticalPath(ALGraph G){
   */
 
   //比较 Ae 和 Al,相等则输出关键路径
-  for(i=0;i<G.vexnum;i++){
+  for(i=0;i<G.vexs;i++){
     EdgeNode *p = G.vexs[i].firstedge; 
     ae = ve[i];
+    printf("ae(%d) = %d\n",i+1, ae);
     while(p){
       j = p->adjvex;
       al = vl[j] - p->info;
+      printf("al(%d) = %d\n",j+1, al);
       if(ae == al)
         printf("[Critical] %c -> %c : %d\n", 
           G.vexs[i].data,
@@ -190,7 +192,7 @@ Status CriticalPath(ALGraph G){
 
 int main(){ 
   ALGraph G = createDN();
-  //printDN(G);
+  printDN(G);
   CriticalPath(G);
   return 0;
 }

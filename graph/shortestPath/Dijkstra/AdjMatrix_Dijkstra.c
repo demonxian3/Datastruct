@@ -3,7 +3,7 @@
 #define TRUE 1
 #define FALSE 0
 #define Bool int
-#define MAXNUM 20
+#define MAXNUM 40
 #define INFINITY 1000
 
 typedef char VertexType;
@@ -99,6 +99,8 @@ MGraph createUDN(){
       printf("[%d]i j v: ",i);
       scanf("%d %d %d",&a,&b,&w);
       getchar();
+      a -= 1;
+      b -= 1;
       G.acrs[a][b] = w;
       G.acrs[b][a] = w;
   }
